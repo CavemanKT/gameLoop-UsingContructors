@@ -1,0 +1,11 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+#game-screen {
+  width: 1024px;
+  height: 864px;
+  position: relative;
+  background: gray;
+}
