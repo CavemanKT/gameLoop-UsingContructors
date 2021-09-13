@@ -1,9 +1,7 @@
-import Character from './Character.js'
-
-function Enemy ( { initDimension, initVelocity, initPos, initBackground, }, $game ) {
-    const enemy = {
+function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, }, $game ) {
+  const enemy = {
     $elem: null,
-    id: `_${Math.random().toString(36).substring(2, 15)}`,
+    id: newId,
     dimension: initDimension,
     velocity: initVelocity,
     position: initPos,
@@ -25,43 +23,65 @@ function Enemy ( { initDimension, initVelocity, initPos, initBackground, }, $gam
 
   init()
 
-
   // Everytime this gets invoked, update character position
-  this.moveCharacter = () => {
-    const gameW = $game.width()
-    const gameH = $game.height()
+  this.moveCharacter = (character) => {
     const {
-      velocity,
-      dimension: { w, h },
-      position: { x, y },
-      movement: { left, up, right, down }
+      velocity: Ve,
+      position: { Xe, Ye }
+    } = enemy
+
+    const {
+      position: { Xc, Yc}
     } = character
 
-    let newX = x
-    let newY = y
+    let newX = Xe
+    let newY = Ye
 
+    if ( Xe < Xc ) {
+      newX += Ve
+      // console.log(Ve);
+      // console.log(Xe);
+    }
+    if ( Xe > Xc ) {
+      newX -= Ve
+      // console.log(Xe);
 
-    if (left) {
-      newX = x - velocity < 0 ? 0 : newX - velocity
     }
-    if (up) {
-      newY = y - velocity < 0 ? 0 : newY - velocity
+    if ( Ye < Yc) {
+      newY += Ve
+      // console.log(Ye);
+
     }
-    if (right) {
-      newX = x + w + velocity > gameW ? gameW - w : newX + velocity
-    }
-    if (down) {
-      newY = y + h + velocity > gameH ? gameH - h : newY + velocity
+    if ( Ye > Yc) {
+      newY -= Ve
+      // console.log(Ye);
     }
 
-    character.position.x = newX
-    character.position.y = newY
-    // console.log(character.position.x, character.position.y);
-    character.$elem.css('left', newX).css('top', newY)
+    this.updateEnemyPos(newX, newY)
   }
 
+  this.updateEnemyPos = (newX, newY) => {
+    enemy.position.Xe = newX
+    enemy.position.Ye = newY
+    enemy.$elem.css('left', newX).css('top', newY)
+  }
+
+  Object.defineProperties(this, {
+    dimension: {
+      get: function() {
+        return {
+          ...enemy.dimension
+        }
+      }
+    },
+    position: {
+      get: function() {
+        return {
+          ...enemy.position
+        }
+      }
+    }
+  })
 }
-
-
 
 export default Enemy

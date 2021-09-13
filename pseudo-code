@@ -34,3 +34,14 @@ or you can upgrade your attack speed by pressing a...  only 2 options.
 
 
 when enemy gets hit, they slow down for 1s ~ 2s.
+
+if ( !death ) {
+  gameOn
+  if(counterWin)
+} else {
+  lose, gameOver
+}
+
+
+
+I need to figure out how to generate different random position for enemy

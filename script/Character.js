@@ -1,5 +1,6 @@
-function Character({ initDimension, initVelocity, initPos, initBackground, movementKeys }, $game) {
+function Character({ life, initDimension, initVelocity, initPos, initBackground, movementKeys }, $game) {
   const character = {
+    life: life,
     $elem: null,
     id: `_${Math.random().toString(36).substring(2, 15)}`,
     dimension: initDimension,
@@ -13,17 +14,18 @@ function Character({ initDimension, initVelocity, initPos, initBackground, movem
       right: false,
       down: false
     },
+    gameOver: false
   }
 
   // Create character and appends the character to game-screen
   const init = () => {
-    const { id, position: { x, y }, dimension: { w, h }, background } = character
+    const { id, position: { Xc, Yc }, dimension: { WIDTHc, HEIGHTc }, background } = character
     character.$elem = $(`<div id="${id}"></div>`)
-      .css('left', x)
-      .css('top', y)
+      .css('left', Xc)
+      .css('top', Yc)
       .css('background', background)
-      .css('width', w)
-      .css('height', h)
+      .css('width', WIDTHc)
+      .css('height', HEIGHTc)
       .css('position', 'absolute')
       .appendTo('#game-screen')
   }
@@ -55,33 +57,91 @@ function Character({ initDimension, initVelocity, initPos, initBackground, movem
     const gameH = $game.height()
     const {
       velocity,
-      dimension: { w, h },
-      position: { x, y },
+      dimension: { WIDTHc, HEIGHTc },
+      position: { Xc, Yc },
       movement: { left, up, right, down }
     } = character
 
-    let newX = x
-    let newY = y
-
+    let newX = Xc
+    let newY = Yc
 
     if (left) {
-      newX = x - velocity < 0 ? 0 : newX - velocity
+      newX = Xc - velocity < 0 ? 0 : newX - velocity
     }
     if (up) {
-      newY = y - velocity < 0 ? 0 : newY - velocity
+      newY = Yc - velocity < 0 ? 0 : newY - velocity
     }
     if (right) {
-      newX = x + w + velocity > gameW ? gameW - w : newX + velocity
+      newX = Xc + WIDTHc + velocity > gameW ? gameW - WIDTHc : newX + velocity
     }
     if (down) {
-      newY = y + h + velocity > gameH ? gameH - h : newY + velocity
+      newY = Yc + HEIGHTc + velocity > gameH ? gameH - HEIGHTc : newY + velocity
     }
 
-    character.position.x = newX
-    character.position.y = newY
-    // console.log(character.position.x, character.position.y);
+    this.updateCharacterPos(newX, newY)
+  }
+
+  this.collisionToEnemy = (enemy) => {
+    const { position: {Xe, Ye}, dimension: { WIDTHe, HEIGHTe} } = enemy
+    const {
+      life: { life },
+      dimension: { WIDTHc, HEIGHTc },
+      position: { Xc, Yc },
+    } = character
+
+    if (Xe < Xc + WIDTHc && Xe + WIDTHe > Xc &&
+      Ye < Yc + HEIGHTc && Ye + HEIGHTe > Yc) {
+        // collision detected!
+        if(life > 0){
+          life--
+          setInterval(() => {
+            character.$elem.toggleClass('get-hit')
+          }, 10000);
+        } else {
+          // console.log(life);
+        }
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  this.updateCharacterPos = (newX, newY) => {
+    character.position.Xc = newX
+    character.position.Yc = newY
     character.$elem.css('left', newX).css('top', newY)
   }
+
+  Object.defineProperties(this, {
+    dimension: {
+      get: function() {
+        return {
+          ...character.dimension
+        }
+      }
+    },
+    position: {
+      get: function() {
+        return {
+          ...character.position
+        }
+      }
+    }
+  })
 }
 
 export default Character
