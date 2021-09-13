@@ -1,11 +1,13 @@
 import Character from './Character.js'
+import Enemy from './Enemy.js'
 
 function Game({ id, loopInterval }) {
   const game = {
     $elem: $(id),
     id,
     loop: null,
-    characters: []
+    characters: [],
+    enemies: [],
   }
 
   // Handling Key Down
@@ -30,6 +32,10 @@ function Game({ id, loopInterval }) {
 
   this.addCharacter = (setting) => {
     game.characters.push(new Character(setting, game.$elem))
+  }
+
+  this.addEnemy = (setting) => {
+    game.enemies.push(new Enemy(setting, game.$elem))
   }
 
   this.startGame = () => {
