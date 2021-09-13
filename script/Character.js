@@ -1,5 +1,13 @@
-function Character({ life, initDimension, initVelocity, initPos, initBackground, movementKeys }, $game) {
+const CHARACTER_WIDTH = 50
+const CHARACTER_HEIGHT = 50
+const VELOCITY = 10
+const GAME_WIDTH = 1024
+const GAME_HEIGHT = 864
+
+
+function Character({ blood, life, initDimension, initVelocity, initPos, initBackground, movementKeys }, $game) {
   const character = {
+    blood: blood,
     life: life,
     $elem: null,
     id: `_${Math.random().toString(36).substring(2, 15)}`,
@@ -84,7 +92,8 @@ function Character({ life, initDimension, initVelocity, initPos, initBackground,
   this.collisionToEnemy = (enemy) => {
     const { position: {Xe, Ye}, dimension: { WIDTHe, HEIGHTe} } = enemy
     const {
-      life: { life },
+      blood: blood,
+      life: life,
       dimension: { WIDTHc, HEIGHTc },
       position: { Xc, Yc },
     } = character
@@ -92,16 +101,67 @@ function Character({ life, initDimension, initVelocity, initPos, initBackground,
     if (Xe < Xc + WIDTHc && Xe + WIDTHe > Xc &&
       Ye < Yc + HEIGHTc && Ye + HEIGHTe > Yc) {
         // collision detected!
-        if(life > 0){
-          life--
-          setInterval(() => {
+        let preTime = new Date()
+        console.log(preTime);
+
+        if(!character.$elem.hasClass('get-hit')){
+          var invincible = setInterval(() => {
             character.$elem.toggleClass('get-hit')
-          }, 10000);
-        } else {
-          // console.log(life);
+          }, 100);
         }
+
+        if(blood > 0){
+          character.blood--
+          console.log('lose 1 blood');
+        } else {
+          this.resetCharacter()   // basically mean I die
+          character.life--
+          console.log('lose 1 life');
+          character.blood = 1
+          if(life === 0) {
+            this.restartGame()     // mean I lost
+          }
+        }
+
+    }
+    if (true) {
+      setTimeout(() => {
+        clearInterval(invincible);
+        if(character.$elem.hasClass('get-hit')) {
+          character.$elem.removeClass('get-hit')
+        }
+      }, 3000);
     }
   }
+
+  this.resetCharacter = () => {
+    character.blood = 5
+    character.dimension = {
+      WIDTHc: CHARACTER_WIDTH,
+      HEIGHTc: CHARACTER_HEIGHT
+    }
+    character.velocity = VELOCITY
+    character.position = {Xc: GAME_WIDTH / 2, Yc: GAME_HEIGHT - 100}
+
+  }
+
+  this.restartGame = () => {
+    // points = 0
+    // level = 0     // increase enemy's speed along with the level up
+    this.resetCharacter()   // need to define
+    console.log('game over, restart the game');
+  }
+
+
+
+
+
+
+// additional feature: event would be increase life, heal,
+// slow enemy down
+// increase or slow down character's speed
+
+
 
 
 

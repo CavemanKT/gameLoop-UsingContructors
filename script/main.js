@@ -20,13 +20,14 @@ const gameSettings = ({
 })
 
 const p1Settings = {
+  blood: 1,
   life: 3,
   initDimension: {
     WIDTHc: CHARACTER_WIDTH,
     HEIGHTc: CHARACTER_HEIGHT
   },
   initVelocity: VELOCITY,
-  initPos: { Xc: 0, Yc: 0},
+  initPos: { Xc: GAME_WIDTH / 2, Yc: GAME_HEIGHT - 100},
   initBackground: 'blue',
   movementKeys: {
     left: 37,
@@ -107,8 +108,12 @@ const enemySetting4 = {
 }
 
 
+
 const game = new Game(gameSettings)
 game.addCharacter(p1Settings)
+
+
+
 game.addEnemy(enemySetting)
 game.addEnemy(enemySetting2)
 game.addEnemy(enemySetting3)

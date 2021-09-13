@@ -1,4 +1,4 @@
-function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, }, $game ) {
+function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, } ) {
   const enemy = {
     $elem: null,
     id: newId,
