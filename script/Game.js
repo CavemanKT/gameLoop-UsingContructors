@@ -16,6 +16,10 @@ const VELOCITYe = 1
 
 function Game({ id, loopInterval }) {
   const game = {
+    $divWrapper: null,
+    $restartBtn: null,
+    $restartMsg: null,
+    $startBtn: null,
     $elem: $(id),
     id,
     loop: null,
@@ -27,6 +31,7 @@ function Game({ id, loopInterval }) {
     prevLevel: 0,
     diffLevel: 0,
     levelNum: 0,
+
   }
 
   // Handling Key Down
@@ -39,6 +44,39 @@ function Game({ id, loopInterval }) {
     game.character.setCharacterMovement(false, e.keyCode)
   }
 
+
+// the BEGINNING of the startBtn        =============================================
+  const wrapperForStartBtn = () => {
+    game.$divWrapper = $('<div id="div-wrapper"></div>')
+    game.$divWrapper
+        .css('background-color', '#345B63')
+        .css('width', '1024px')
+        .css('height', '864px')
+        .css('display', 'flex')
+        .css('position', 'relative')
+        .appendTo('#data-bar')
+  }
+
+  const start = () => {
+    wrapperForStartBtn()
+    game.$startBtn = $("<button id='#startBtn'>START</button>")
+    game.$startBtn
+        .css('width', '150px')
+        .css('height', '80px')
+        .css('background-color', '#D4ECDD')
+        .css('position', 'relative')
+        .css('justify-content', 'center')
+        .css('align-item', 'center')
+        .appendTo(game.$divWrapper)
+  }
+
+  const handleStartBtn = () => {
+    game.$elem.removeAttr('hidden')
+    game.$divWrapper.hide()
+    game.$startBtn.hide()
+  }
+// the END of the startBtn  ========================================================
+
   const updateMovements = () => {
     game.character.moveCharacter()
     game.enemies.forEach((enemy) => {
@@ -48,7 +86,7 @@ function Game({ id, loopInterval }) {
 
   const collisionSystem = () => {
     game.enemies.forEach((enemy) => {
-      game.character.collisionToEnemy(enemy)
+      game.character.collisionToEnemy(enemy) // it returns value of life, in case you want to do something about it.
     })
 
   }
@@ -76,8 +114,35 @@ function Game({ id, loopInterval }) {
   const nextLevel = (levelNum) => {
     game.enemies.forEach((enemy) => {
       enemy.triggerCharacterAttributeInNextLevel(game.character, levelNum)
-      // game.cave.triggerEnemyAttributeInNextLevel(enemy)
     })
+  }
+
+// Beginning of the restartBtn      ===================================================
+  const restartBtn = () => {
+    game.$restartMsg = $('<h3 id="#restartMsg">You are being brought back to hell.</h3>')
+    game.$restartMsg
+        .css('text-align', 'center')
+        .css('position', 'relative')
+        .css('align-item', 'center')
+        .css('justify-content', 'center')
+        .css('font-size', '28px')
+        .css('font-weight', '900')
+        .appendTo(game.$divWrapper)
+    game.$restartBtn = $('<button id="restartBtn">RESTART</button>')
+    game.$restartBtn
+        .css('width', '150px')
+        .css('height', '80px')
+        .css('background-color', '#E8F6EF')
+        .css('position', 'relative')
+        .css('justify-content', 'center')
+        .css('align-item', 'center')
+        .appendTo(game.$divWrapper)
+  }
+
+  const gameOverShowUp = () => {
+    game.$elem.attr('hidden')
+    game.$divWrapper.show()
+    restartBtn()
   }
 
   const gameOver = () => {
@@ -86,21 +151,26 @@ function Game({ id, loopInterval }) {
     } = game.character
     console.log('is this gameOver', life);
     if (life == -1) {
-      console.log('lost');
+      gameOverShowUp()
     }
   }
+
+  const handleRestartBtn = () => {
+    game.$elem.removeAttr('hidden')
+    game.$divWrapper.hide()
+    game.$restartMsg.hide()
+    game.$restartBtn.hide()
+  }
+// the END of the restartBtn  =======================================================
 
   this.addCharacter = (setting) => {
     let newChar = new Character(setting, game.$elem)
     game.character = newChar
-
   }
-
   this.addEnemy = (setting) => {
     let newEnemy = new Enemy(setting)
     game.enemies.push(newEnemy)
   }
-
   this.addCave = (setting) => {
     game.cave = new Cave(setting)
   }
@@ -108,11 +178,15 @@ function Game({ id, loopInterval }) {
   this.startGame = () => {
     $(document).on('keydown', handleKeyDown)
     $(document).on('keyup', handleKeyUp)
+    start()
+    game.$startBtn.on('click', handleStartBtn)
+    // game.$restartBtn.on('click', handleRestartBtn)
 
     game.loop = setInterval(updateMovements, loopInterval)
     game.loopCollisionToEnemy = setInterval(collisionSystem, 300)
     game.loopEntryDetection = setInterval(entryDetection,500)
     game.loopCheckIfLost = setInterval(gameOver, 1000);
+
   }
 
 

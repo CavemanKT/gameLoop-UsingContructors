@@ -6,6 +6,7 @@ body {
 #data-bar {
   width: 1200px;
   height: 900px;
+  display: flex;
   position: relative;
   justify-content: flex-end;
   background-color: rgba(0, 0, 0, 0.2);
