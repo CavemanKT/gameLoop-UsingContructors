@@ -3,14 +3,22 @@ const CHARACTER_HEIGHT = 50
 const VELOCITY = 10
 const GAME_WIDTH = 1024
 const GAME_HEIGHT = 864
-const initBlood = 1 // official initBlood is 5
+const initBlood = 5 // official initBlood is 5
+const initLife = 10
+const CHARACTER_POSITION = {
+  x: GAME_WIDTH / 2,
+  y: GAME_HEIGHT - 100
+}
 
-
-function Character({ blood, life, initDimension, initVelocity, initPos, initBackground, movementKeys }, $game) {
+function Character({points, blood, life, initDimension, initVelocity, initPos, initBackground, movementKeys }, $game) {
   const character = {
+    points: points,
     blood: blood,
     life: life,
     $elem: null,
+    $pointsElem: null,
+    $lifeElem: null,
+    $bloodElem: null,
     id: `_${Math.random().toString(36).substring(2, 15)}`,
     dimension: initDimension,
     velocity: initVelocity,
@@ -28,15 +36,47 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
 
   // Create character and appends the character to game-screen
   const init = () => {
-    const { id, position: { Xc, Yc }, dimension: { WIDTHc, HEIGHTc }, background } = character
+    const {points, blood, life, id, position: { Xc, Yc }, dimension: { WIDTHc, HEIGHTc }, background } = character
     character.$elem = $(`<div id="${id}"></div>`)
       .css('left', Xc)
       .css('top', Yc)
-      .css('background', background)
+      .css('background', "url('img/GhostWillySprite000.png')")
+      .css('background-size', 'cover')
       .css('width', WIDTHc)
       .css('height', HEIGHTc)
       .css('position', 'absolute')
       .appendTo('#game-screen')
+
+    character.$pointsElem = $(`<p id="pointsElem"></p>`)
+    character.$pointsElem
+      .text(`points: ${character.points}`)
+      .css('font-size', '28px')
+      .css('font-weight', '10')
+      .css('position', 'absolute')
+      .css('bottom', '-25px')
+      .css('left', '400px')
+      .appendTo('#data-bar')
+
+    character.$bloodElem = $(`<p id="bloodElem"></p>`)
+    character.$bloodElem
+      .text(`HP: ${character.blood}`)
+      .css('font-size', '28px')
+      .css('font-weight', '10')
+      .css('position', 'absolute')
+      .css('bottom', '-25px')
+      .css('left', '800px')
+      .appendTo('#data-bar')
+
+    character.$lifeElem = $(`<p id="lifeElem"></p>`)
+    character.$lifeElem
+      .text(`Life: ${character.life}`)
+      .css('font-size', '28px')
+      .css('font-weight', '10')
+      .css('position', 'absolute')
+      .css('bottom', '-25px')
+      .css('left', '1000px')
+      .appendTo('#data-bar')
+
   }
 
   init()
@@ -109,21 +149,23 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
           }, 100);
         }
 
-        if(blood > 0){
+        if(blood > 1){
           // console.log(blood);
           character.blood--
+          updateHp()
           console.log('lose 1 blood');
         } else {
+          character.blood--
           this.resetCharacter()   // basically mean I die
           character.life--
+          updateLife()
           console.log('lose 1 life');
           if(life === 0) {
             // $('<div id="veil"></div>').appendTo('#game-screen');
             //don't know if it will work
-            this.restartGame()     // mean I lost
+            return life
           }
         }
-
     }
     if (true) {
       setTimeout(() => {
@@ -144,11 +186,13 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
       position: { Xc, Yc },
     } = character
 
-    character.blood = initBlood
+    // character.blood = initBlood
     character.dimension = {
       WIDTHc: WIDTHc,
       HEIGHTc: HEIGHTc
     }
+    character.blood = initBlood
+    updateHp()
     character.velocity = velocity
     character.position = {Xc: GAME_WIDTH / 2, Yc: GAME_HEIGHT - 100}
   }
@@ -160,18 +204,54 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
       position: { Xc, Yc },
     } = character
 
-    character.life = life
-    character.dimension = {WIDTHc, HEIGHTc}
+    character.life = initLife
+    character.dimension = {CHARACTER_WIDTH, CHARACTER_HEIGHT}
+
     // points = 0
     // level = 0     // increase enemy's speed along with the level up
     this.resetCharacter()
     console.log('game over, restart the game');
   }
 
+  this.addPoint = () => {
+    character.points += 10
+    character.$pointsElem
+      .text(`points: ${character.points}`)
+      .css('font-size', '28px')
+      .css('font-weight', '10')
+      .css('position', 'absolute')
+      .css('bottom', '-25px')
+      .css('left', '400px')
+      .appendTo('#data-bar')
+  }
 
+  const updateHp = () => {
+    const {
+      blood
+    } = character
+    character.$bloodElem
+      .text(`HP: ${blood}`)
+      .css('font-size', '28px')
+      .css('font-weight', '10')
+      .css('position', 'absolute')
+      .css('bottom', '-25px')
+      .css('left', '800px')
+      .appendTo('#data-bar')
+  }
 
-
-
+  const updateLife = () => {
+    const {
+      life
+    } = character
+    character.$lifeElem
+      .text(`Life: ${life}`)
+      .css('font-size', '28px')
+      .css('font-weight', '10')
+      .css('position', 'absolute')
+      .css('bottom', '-25px')
+      .css('left', '1000px')
+      .appendTo('#data-bar')
+  }
 
 // additional feature: event would be increase life, heal,
 // slow enemy down
@@ -192,7 +272,9 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
 
 
 
-
+  this.charReachTheGate = () => {
+    this.resetCharacter()
+  }
 
 
 
@@ -216,6 +298,11 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
         return {
           ...character.position
         }
+      }
+    },
+    life: {
+      get: function () {
+        return character.life
       }
     }
 

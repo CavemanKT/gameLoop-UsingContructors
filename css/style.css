@@ -15,7 +15,8 @@ body {
   width: 1024px;
   height: 864px;
   position: relative;
-  background: gray;
+  background-image: url('../img/spaceBackground.png');
+  background-size: cover;
 }
 
 .get-hit {

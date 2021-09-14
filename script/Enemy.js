@@ -6,6 +6,12 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
     velocity: initVelocity,
     position: initPos,
     background: initBackground,
+    $levelBar: null,
+    $bloodBar: null,
+    $lifeBar: null,
+    $pointBar: null,
+    $eventBar: null,
+    $dataBar: null
   }
 
   // Create character and appends the character to game-screen
@@ -14,7 +20,8 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
     enemy.$elem = $(`<div id="${id}"></div>`)
       .css('left', Xe)
       .css('top', Ye)
-      .css('background', background)
+      .css('background', "url('img/wraith.png')")
+      .css('background-size', 'cover')
       .css('width', WIDTHe)
       .css('height', HEIGHTe)
       .css('position', 'absolute')
@@ -67,29 +74,70 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       }
     } = character
 
-    switch (levelNum) {
-      case 1:
-        console.log(enemy.dimension.WIDTHe, enemy.dimension.HEIGHTe);
-        enemy.dimension.WIDTHe = 100
-        enemy.dimension.HEIGHTe = 100
-        console.log(enemy.dimension.WIDTHe, enemy.dimension.HEIGHTe);
-        enemy.$elem
-              .css('width', enemy.dimension.WIDTHe)
-              .css('height', enemy.dimension.HEIGHTe)
-        console.log(
-          $('<p id="levelNum"></p>').appendTo('#data-table').text(`${levelNum}`).css('float','right')
+  switch (levelNum) {
+    case 1:
+      sizeChange(100)
+      updateData(enemy.$levelBar, levelNum)
 
-        );
+      break;
+    case 2:
+      sizeChange(50)
+      enemy.velocity = 2
+      updateData(enemy.$levelBar, levelNum)
+      break;
+    case 3:
+      sizeChange(150)
+      enemy.velocity = 3
+      updateData(enemy.$levelBar, levelNum)
 
-
-        break;
-
-      default:
-        console.log('default');
-        break;
+      break;
+    default:
+      break;
     }
+
   }
 
+
+  this.resetEnemyPos = (GAME_WIDTH, GAME_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT) => {
+    enemy.position.WIDTHe = Math.round(Math.random() * (GAME_WIDTH - ENEMY_WIDTH))
+    enemy.position.HEIGHTe = Math.round(Math.random() * (GAME_HEIGHT - ENEMY_HEIGHT))
+    this.updateEnemyPos(enemy.position.WIDTHe, enemy.position.HEIGHTe)
+
+  }
+
+
+
+
+  const sizeChange = (size) => {
+    enemy.dimension.WIDTHe = size
+    enemy.dimension.HEIGHTe = size
+    enemy.$elem
+      .css('width', enemy.dimension.WIDTHe)
+      .css('height', enemy.dimension.HEIGHTe)
+  }
+
+  const removeData = (levelNumElem) => {
+    levelNumElem.remove(":contains('level')")
+  }
+
+  const addData = (levelNumber) =>{
+    enemy.$levelBar = $('<p id="levelNum"></p>')
+    enemy.$levelBar
+        .text(`level ${levelNumber}`)
+        .css('font-size', '28px')
+        .css('font-weight', '10')
+        .css('position', 'absolute')
+        .css('bottom', '-25px')
+        .css('left', '20px')
+        .appendTo('#data-bar')
+  }
+
+  addData(0)  // initialization
+
+  const updateData = (levelNumElem, levelNumber) => {
+    removeData(levelNumElem)
+    addData(levelNumber)
+  }
 
   // this.lv5Tactic = (GAME_WIDTH, GAME_HEIGHT) => {   // once enter lv5, trigger tactic every 10s
   //   const {
@@ -99,7 +147,6 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
   // // change tactic according to which key I press
 
   // }
-
 
   this.updateEnemyPos = (newX, newY) => {
     enemy.position.Xe = newX

@@ -47,12 +47,9 @@ function Cave ( { level, newId, initPos, initDimension, initBackground } ) {
     let newWIDTHcave = width
     let newHEIGHTcave = height
 
-    // console.log(newXc, newWIDTHc , newXcave, newWIDTHcave, newXc, newXcave, newYcave, newYc);
-
     if ((newXc + newWIDTHc < newXcave + newWIDTHcave) && (newXc > newXcave) && (newYcave + 3 > newYc)) {
       cave.level++
       return cave.level
-
     }
   }
 

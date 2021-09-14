@@ -5,7 +5,7 @@ const GAME_WIDTH = 1024
 const GAME_HEIGHT = 864
 const CHARACTER_WIDTH = 50
 const CHARACTER_HEIGHT = 50
-const VELOCITY = 4
+const VELOCITY = 10
 const FPS = 60
 const LOOP_INTERVAL = Math.round(1000 / FPS)
 
@@ -33,8 +33,9 @@ const gameSettings = ({
 })
 
 const p1Settings = {
-  blood: 1,
-  life: 3,
+  points: 0,
+  blood: 5,
+  life: 10,
   initDimension: {
     WIDTHc: CHARACTER_WIDTH,
     HEIGHTc: CHARACTER_HEIGHT
@@ -59,7 +60,7 @@ const caveSetting = {
     y: 0
   },
   initDimension: {
-    width: 80,
+    width: 150,
     height: 20
   },
   initBackground: 'brown'
@@ -124,6 +125,20 @@ const enemySetting4 = {
   initBackground: 'green'
 }
 
+const enemySetting5 = {
+  newId: randId(),
+  initDimension: {
+    WIDTHe: ENEMY_WIDTH,
+    HEIGHTe: ENEMY_HEIGHT,
+  },
+  initVelocity: VELOCITYe,
+  initPos: {
+    Xe: randX(),
+    Ye: randY()
+  },
+  initBackground: 'green'
+}
+
 const game = new Game(gameSettings)
 game.addCharacter(p1Settings)
 
@@ -133,6 +148,7 @@ game.addEnemy(enemySetting)
 game.addEnemy(enemySetting2)
 game.addEnemy(enemySetting3)
 game.addEnemy(enemySetting4)
+game.addEnemy(enemySetting5)
 
 game.addCave(caveSetting)
 

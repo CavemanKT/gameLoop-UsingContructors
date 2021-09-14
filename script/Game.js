@@ -9,7 +9,6 @@ const CHARACTER_WIDTH = 50
 const CHARACTER_HEIGHT = 50
 const VELOCITY = 10
 
-
 //ENEMY CONSTANT
 const ENEMY_WIDTH = CHARACTER_WIDTH - 20
 const ENEMY_HEIGHT = CHARACTER_HEIGHT - 20
@@ -21,9 +20,13 @@ function Game({ id, loopInterval }) {
     id,
     loop: null,
     loopCollisionToEnemy: null,
+    loopCheckIfLost: null,
     character: null,
     cave: null,
-    enemies: []
+    enemies: [],
+    prevLevel: 0,
+    diffLevel: 0,
+    levelNum: 0,
   }
 
   // Handling Key Down
@@ -41,26 +44,50 @@ function Game({ id, loopInterval }) {
     game.enemies.forEach((enemy) => {
       enemy.moveCharacter(game.character)
     })
-
   }
 
   const collisionSystem = () => {
     game.enemies.forEach((enemy) => {
       game.character.collisionToEnemy(enemy)
     })
+
   }
 
   const entryDetection = () => {
-    var levelNum = game.cave.entryDetection(game.character)  // we have 'entryDetection' here
-    this.nextLevel(levelNum)
-
+    game.levelNum = game.cave.entryDetection(game.character)  // we have 'entryDetection' here
+    nextLevel(game.levelNum)
+    checkIfReachTheGate(game.levelNum)
   }
 
-  this.nextLevel = (levelNum) => {
+  const checkIfReachTheGate = (levelNum) => {
+    game.diffLevel = levelNum - game.prevLevel
+    if(levelNum){
+      game.prevLevel = levelNum
+    }
+    if (game.diffLevel) {
+      game.character.charReachTheGate()
+      game.character.addPoint()
+      game.enemies.forEach((enemy) => {
+        enemy.resetEnemyPos(GAME_WIDTH, GAME_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT)
+      })
+    }
+  }
+
+  const nextLevel = (levelNum) => {
     game.enemies.forEach((enemy) => {
       enemy.triggerCharacterAttributeInNextLevel(game.character, levelNum)
       // game.cave.triggerEnemyAttributeInNextLevel(enemy)
     })
+  }
+
+  const gameOver = () => {
+    const {
+      life
+    } = game.character
+    console.log('is this gameOver', life);
+    if (life == -1) {
+      console.log('lost');
+    }
   }
 
   this.addCharacter = (setting) => {
@@ -84,13 +111,10 @@ function Game({ id, loopInterval }) {
 
     game.loop = setInterval(updateMovements, loopInterval)
     game.loopCollisionToEnemy = setInterval(collisionSystem, 300)
-    game.loopEntryDetection = setInterval(entryDetection,1000)
-
+    game.loopEntryDetection = setInterval(entryDetection,500)
+    game.loopCheckIfLost = setInterval(gameOver, 1000);
   }
 
-  // this.gameOver = () => {
-  //   game.character
-  // }
 
 }
 
