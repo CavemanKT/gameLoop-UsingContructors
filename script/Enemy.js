@@ -39,26 +39,67 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
 
     if ( Xe < Xc ) {
       newX += Ve
-      // console.log(Ve);
-      // console.log(Xe);
     }
     if ( Xe > Xc ) {
       newX -= Ve
-      // console.log(Xe);
-
     }
     if ( Ye < Yc) {
       newY += Ve
-      // console.log(Ye);
-
     }
     if ( Ye > Yc) {
       newY -= Ve
-      // console.log(Ye);
     }
 
     this.updateEnemyPos(newX, newY)
   }
+
+
+  this.triggerCharacterAttributeInNextLevel = (character, levelNum) => {
+    const {
+      velocity,
+      dimension: {
+        WIDTHc,
+        HEIGHTc
+      },
+      position: {
+        Xc,
+        Yc
+      }
+    } = character
+
+    switch (levelNum) {
+      case 1:
+        console.log(enemy.dimension.WIDTHe, enemy.dimension.HEIGHTe);
+        enemy.dimension.WIDTHe = 100
+        enemy.dimension.HEIGHTe = 100
+        console.log(enemy.dimension.WIDTHe, enemy.dimension.HEIGHTe);
+        enemy.$elem
+              .css('width', enemy.dimension.WIDTHe)
+              .css('height', enemy.dimension.HEIGHTe)
+        console.log(
+          $('<p id="levelNum"></p>').appendTo('#data-table').text(`${levelNum}`).css('float','right')
+
+        );
+
+
+        break;
+
+      default:
+        console.log('default');
+        break;
+    }
+  }
+
+
+  // this.lv5Tactic = (GAME_WIDTH, GAME_HEIGHT) => {   // once enter lv5, trigger tactic every 10s
+  //   const {
+  //     velocity: Ve,
+  //     position: { Xe, Ye }
+  //   } = enemy
+  // // change tactic according to which key I press
+
+  // }
+
 
   this.updateEnemyPos = (newX, newY) => {
     enemy.position.Xe = newX
@@ -66,6 +107,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
     enemy.$elem.css('left', newX).css('top', newY)
   }
 
+// beginning of the getters
   Object.defineProperties(this, {
     dimension: {
       get: function() {
@@ -81,6 +123,8 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
         }
       }
     }
+
+// ends of the getters
   })
 }
 

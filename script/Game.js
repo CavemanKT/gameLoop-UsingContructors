@@ -1,5 +1,6 @@
 import Character from './Character.js'
 import Enemy from './Enemy.js'
+import Cave from './Cave.js'
 
 // CONSTANTS
 const GAME_WIDTH = 1024
@@ -7,6 +8,7 @@ const GAME_HEIGHT = 864
 const CHARACTER_WIDTH = 50
 const CHARACTER_HEIGHT = 50
 const VELOCITY = 10
+
 
 //ENEMY CONSTANT
 const ENEMY_WIDTH = CHARACTER_WIDTH - 20
@@ -18,8 +20,9 @@ function Game({ id, loopInterval }) {
     $elem: $(id),
     id,
     loop: null,
-    loopCollision: null,
+    loopCollisionToEnemy: null,
     character: null,
+    cave: null,
     enemies: []
   }
 
@@ -38,11 +41,25 @@ function Game({ id, loopInterval }) {
     game.enemies.forEach((enemy) => {
       enemy.moveCharacter(game.character)
     })
+
   }
 
   const collisionSystem = () => {
     game.enemies.forEach((enemy) => {
       game.character.collisionToEnemy(enemy)
+    })
+  }
+
+  const entryDetection = () => {
+    var levelNum = game.cave.entryDetection(game.character)  // we have 'entryDetection' here
+    this.nextLevel(levelNum)
+
+  }
+
+  this.nextLevel = (levelNum) => {
+    game.enemies.forEach((enemy) => {
+      enemy.triggerCharacterAttributeInNextLevel(game.character, levelNum)
+      // game.cave.triggerEnemyAttributeInNextLevel(enemy)
     })
   }
 
@@ -53,8 +70,12 @@ function Game({ id, loopInterval }) {
   }
 
   this.addEnemy = (setting) => {
-    let newEnemy = new Enemy(setting, game.$elem)
+    let newEnemy = new Enemy(setting)
     game.enemies.push(newEnemy)
+  }
+
+  this.addCave = (setting) => {
+    game.cave = new Cave(setting)
   }
 
   this.startGame = () => {
@@ -62,8 +83,8 @@ function Game({ id, loopInterval }) {
     $(document).on('keyup', handleKeyUp)
 
     game.loop = setInterval(updateMovements, loopInterval)
-    game.loopCollision = setInterval(collisionSystem, 600)
-
+    game.loopCollisionToEnemy = setInterval(collisionSystem, 300)
+    game.loopEntryDetection = setInterval(entryDetection,1000)
 
   }
 

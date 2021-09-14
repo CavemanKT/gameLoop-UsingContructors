@@ -3,6 +3,7 @@ const CHARACTER_HEIGHT = 50
 const VELOCITY = 10
 const GAME_WIDTH = 1024
 const GAME_HEIGHT = 864
+const initBlood = 1 // official initBlood is 5
 
 
 function Character({ blood, life, initDimension, initVelocity, initPos, initBackground, movementKeys }, $game) {
@@ -22,7 +23,7 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
       right: false,
       down: false
     },
-    gameOver: false
+    // gameOver: false
   }
 
   // Create character and appends the character to game-screen
@@ -92,8 +93,9 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
   this.collisionToEnemy = (enemy) => {
     const { position: {Xe, Ye}, dimension: { WIDTHe, HEIGHTe} } = enemy
     const {
-      blood: blood,
-      life: life,
+      blood,
+      life,
+      velocity,
       dimension: { WIDTHc, HEIGHTc },
       position: { Xc, Yc },
     } = character
@@ -101,9 +103,6 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
     if (Xe < Xc + WIDTHc && Xe + WIDTHe > Xc &&
       Ye < Yc + HEIGHTc && Ye + HEIGHTe > Yc) {
         // collision detected!
-        let preTime = new Date()
-        console.log(preTime);
-
         if(!character.$elem.hasClass('get-hit')){
           var invincible = setInterval(() => {
             character.$elem.toggleClass('get-hit')
@@ -111,14 +110,16 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
         }
 
         if(blood > 0){
+          // console.log(blood);
           character.blood--
           console.log('lose 1 blood');
         } else {
           this.resetCharacter()   // basically mean I die
           character.life--
           console.log('lose 1 life');
-          character.blood = 1
           if(life === 0) {
+            // $('<div id="veil"></div>').appendTo('#game-screen');
+            //don't know if it will work
             this.restartGame()     // mean I lost
           }
         }
@@ -135,20 +136,35 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
   }
 
   this.resetCharacter = () => {
-    character.blood = 5
-    character.dimension = {
-      WIDTHc: CHARACTER_WIDTH,
-      HEIGHTc: CHARACTER_HEIGHT
-    }
-    character.velocity = VELOCITY
-    character.position = {Xc: GAME_WIDTH / 2, Yc: GAME_HEIGHT - 100}
+    const {
+      blood,
+      life,
+      velocity,
+      dimension: { WIDTHc, HEIGHTc },
+      position: { Xc, Yc },
+    } = character
 
+    character.blood = initBlood
+    character.dimension = {
+      WIDTHc: WIDTHc,
+      HEIGHTc: HEIGHTc
+    }
+    character.velocity = velocity
+    character.position = {Xc: GAME_WIDTH / 2, Yc: GAME_HEIGHT - 100}
   }
 
   this.restartGame = () => {
+    const {
+      life,
+      dimension: { WIDTHc, HEIGHTc },
+      position: { Xc, Yc },
+    } = character
+
+    character.life = life
+    character.dimension = {WIDTHc, HEIGHTc}
     // points = 0
     // level = 0     // increase enemy's speed along with the level up
-    this.resetCharacter()   // need to define
+    this.resetCharacter()
     console.log('game over, restart the game');
   }
 
@@ -186,6 +202,7 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
     character.$elem.css('left', newX).css('top', newY)
   }
 
+// beginning of the getters
   Object.defineProperties(this, {
     dimension: {
       get: function() {
@@ -201,7 +218,9 @@ function Character({ blood, life, initDimension, initVelocity, initPos, initBack
         }
       }
     }
+
   })
+  // ends of the getters
 }
 
 export default Character

@@ -5,14 +5,27 @@ const GAME_WIDTH = 1024
 const GAME_HEIGHT = 864
 const CHARACTER_WIDTH = 50
 const CHARACTER_HEIGHT = 50
-const VELOCITY = 10
+const VELOCITY = 4
 const FPS = 60
 const LOOP_INTERVAL = Math.round(1000 / FPS)
 
 //ENEMY CONSTANT
 const ENEMY_WIDTH = CHARACTER_WIDTH - 20
 const ENEMY_HEIGHT = CHARACTER_HEIGHT - 20
-const VELOCITYe = 1
+const VELOCITYe = 0.5
+
+// random val
+let randX = function randomPositionForXe() {
+  return Math.round(Math.random() * (GAME_WIDTH - ENEMY_WIDTH))
+}
+let randY = function randomPositionForYe () {
+  return Math.round(Math.random() * (GAME_HEIGHT - ENEMY_HEIGHT))
+}
+let randId = function randomId () {
+  return `_${Math.random().toString(36).substring(2, 15)}`
+}
+
+const initLevel = 0
 
 const gameSettings = ({
   id: '#game-screen',
@@ -37,18 +50,21 @@ const p1Settings = {
   }
 }
 
-
-let randX = function randomPositionForX() {
-  return Math.round(Math.random() * (GAME_WIDTH - ENEMY_WIDTH))
+//NEXT LEVEL ENTRY
+const caveSetting = {
+  level: initLevel,
+  newId: randId(),
+  initPos: {
+    x: GAME_WIDTH / 2,
+    y: 0
+  },
+  initDimension: {
+    width: 80,
+    height: 20
+  },
+  initBackground: 'brown'
 }
 
-let randY = function randomPositionForY () {
-  return Math.round(Math.random() * (GAME_HEIGHT - ENEMY_HEIGHT))
-}
-
-let randId = function randomIdForEnemy () {
-  return `_${Math.random().toString(36).substring(2, 15)}`
-}
 
 const enemySetting = {                 // only define value, anything to do with motion, has to be done in Enemy.js
   newId: randId(),
@@ -65,7 +81,8 @@ const enemySetting = {                 // only define value, anything to do with
 }
 
 const enemySetting2 = {
-  // newId: randId(),
+  newId: randId(),
+  level: initLevel,
   initDimension: {
     WIDTHe: ENEMY_WIDTH,
     HEIGHTe: ENEMY_HEIGHT,
@@ -80,7 +97,7 @@ const enemySetting2 = {
 
 
 const enemySetting3 = {
-  // newId: randId(),
+  newId: randId(),
   initDimension: {
     WIDTHe: ENEMY_WIDTH,
     HEIGHTe: ENEMY_HEIGHT,
@@ -94,7 +111,7 @@ const enemySetting3 = {
 }
 
 const enemySetting4 = {
-  // newId: randId(),
+  newId: randId(),
   initDimension: {
     WIDTHe: ENEMY_WIDTH,
     HEIGHTe: ENEMY_HEIGHT,
@@ -107,8 +124,6 @@ const enemySetting4 = {
   initBackground: 'green'
 }
 
-
-
 const game = new Game(gameSettings)
 game.addCharacter(p1Settings)
 
@@ -119,7 +134,7 @@ game.addEnemy(enemySetting2)
 game.addEnemy(enemySetting3)
 game.addEnemy(enemySetting4)
 
-
+game.addCave(caveSetting)
 
 // if( nextLevel && amountEnemy <= 10 ){
 //   game.addCharacter(enemySetting)

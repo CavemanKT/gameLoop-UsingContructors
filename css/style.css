@@ -3,6 +3,14 @@ body {
   justify-content: center;
 }
 
+#data-bar {
+  width: 1200px;
+  height: 900px;
+  position: relative;
+  justify-content: flex-end;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
 #game-screen {
   width: 1024px;
   height: 864px;
@@ -10,13 +18,10 @@ body {
   background: gray;
 }
 
-canvas {
-  width: 1024px;
-  height: 864px;
-  z-index: 100;
-  background-color: grey;
-}
-
 .get-hit {
   display: none;
+}
+
+.veil {
+  background-color: rgba(255, 255, 255, 0.7);
 }
