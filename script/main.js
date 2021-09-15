@@ -5,7 +5,7 @@ const GAME_WIDTH = 1024
 const GAME_HEIGHT = 864
 const CHARACTER_WIDTH = 50
 const CHARACTER_HEIGHT = 50
-const VELOCITY = 10
+const VELOCITY = 5
 const FPS = 60
 const LOOP_INTERVAL = Math.round(1000 / FPS)
 
@@ -173,20 +173,7 @@ const handleStartBtn = () => {
 }
 
 const handleRestartBtn = () => {
-  // game.removeEnemy()
-  // game.removeEnemy()
-  // game.removeEnemy()
-  // game.removeEnemy()
-  // game.removeCave(caveSetting)
-
-  // game.addEnemy(enemySetting)
-  // game.addEnemy(enemySetting2)
-  // game.addEnemy(enemySetting3)
-  // game.addEnemy(enemySetting4)
-  // game.addEnemy(enemySetting5)
-  // game.addCave(caveSetting)
-
-  game.handleRestart()
+  location.reload()
 }
 
 $startBtn.on('click', handleStartBtn)

@@ -20,7 +20,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
     enemy.$elem = $(`<div id="${id}"></div>`)
       .css('left', Xe)
       .css('top', Ye)
-      .css('background', "url('img/wraith.png')")
+      .css('background', background)
       .css('background-size', 'cover')
       .css('width', WIDTHe)
       .css('height', HEIGHTe)
@@ -83,22 +83,70 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       }
     } = character
 
-  switch (levelNum) {
+  switch (8) {
     case 1:
-      sizeChange(100)
+      sizeChange(60)
       updateData(enemy.$levelBar, levelNum)
-
+      enemy.velocity = 1
+      imgChange('img/Townsfolk_M_Walk_4.png')
       break;
     case 2:
-      sizeChange(50)
-      enemy.velocity = 2
+      sizeChange(60)
+      enemy.velocity = 1.5
       updateData(enemy.$levelBar, levelNum)
+      imgChange('img/Executioner_Walk_1.png')
       break;
     case 3:
-      sizeChange(150)
-      enemy.velocity = 3
+      sizeChange(60)
+      enemy.velocity = 2
+      imgChange('img/Thief_Walk_3.png')
       updateData(enemy.$levelBar, levelNum)
+    case 4:
+      sizeChange(60)
+      enemy.velocity = 1
+      imgChange('img/wraith.png')
+      updateData(enemy.$levelBar, levelNum)
+      break;
+    case 5:
+      sizeChange(60)
+      enemy.velocity = 1
+      imgChange('img/GhostChloeSprite012.png')
+      updateData(enemy.$levelBar, levelNum)
+      break;
 
+    case 6:
+      sizeChange(60)
+      enemy.velocity = 2
+      imgChange('img/HeavyKnight_Idle_1.png')
+      updateData(enemy.$levelBar, levelNum)
+      break;
+
+    case 7:
+      sizeChange(60)
+      enemy.velocity = 2
+      imgChange('img/King_Idle_3.png')
+      updateData(enemy.$levelBar, levelNum)
+      break;
+
+    case 8:
+      sizeChange(60)
+      enemy.velocity = 2
+      imgChange('img/LargeEliteKnight_Idle_1.png')
+      updateData(enemy.$levelBar, levelNum)
+      break;
+
+    case 9:
+      sizeChange(60)
+      enemy.velocity = 2
+      imgChange('img/wraith.png')
+      updateData(enemy.$levelBar, levelNum)
+      break;
+
+    case 10:
+      sizeChange(60)
+      enemy.velocity = 2
+      imgChange('img/wraith.png')
+      updateData(enemy.$levelBar, levelNum)
       break;
     default:
       break;
@@ -106,6 +154,11 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
 
   }
 
+  const imgChange = (url) => {
+    enemy.$elem
+          .css('background', `url(${url})`)
+          .css('background-size', 'cover')
+  }
 
   this.resetEnemyPos = (GAME_WIDTH, GAME_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT) => {
     console.log('enemy.resetEnemyPos has been called');
