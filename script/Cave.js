@@ -53,6 +53,11 @@ function Cave ( { level, newId, initPos, initDimension, initBackground } ) {
     }
   }
 
+  this.setLv0 = () => {
+    console.log('cave.setLv0 has been called');
+    cave.level = 0
+  }
+
 
 // beginning of the getters
   Object.defineProperties(this, {

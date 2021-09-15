@@ -28,6 +28,10 @@ let randId = function randomId () {
 const initLevel = 0
 
 const gameSettings = ({
+  divWrapper: '#div-wrapper',
+  restartBtn: '#restart-btn',
+  restartMsg: '#restart-msg',
+  startBtn: '#start-btn',
   id: '#game-screen',
   loopInterval: LOOP_INTERVAL
 })
@@ -65,9 +69,8 @@ const caveSetting = {
   },
   initBackground: 'brown'
 }
-
-
-const enemySetting = {                 // only define value, anything to do with motion, has to be done in Enemy.js
+// ENEMY SETTING
+const enemySetting = {
   newId: randId(),
   initDimension: {
     WIDTHe: ENEMY_WIDTH,
@@ -80,7 +83,6 @@ const enemySetting = {                 // only define value, anything to do with
   },
   initBackground: 'red'
 }
-
 const enemySetting2 = {
   newId: randId(),
   level: initLevel,
@@ -95,8 +97,6 @@ const enemySetting2 = {
   },
   initBackground: 'green'
 }
-
-
 const enemySetting3 = {
   newId: randId(),
   initDimension: {
@@ -110,7 +110,6 @@ const enemySetting3 = {
   },
   initBackground: 'red'
 }
-
 const enemySetting4 = {
   newId: randId(),
   initDimension: {
@@ -124,7 +123,6 @@ const enemySetting4 = {
   },
   initBackground: 'green'
 }
-
 const enemySetting5 = {
   newId: randId(),
   initDimension: {
@@ -141,19 +139,55 @@ const enemySetting5 = {
 
 const game = new Game(gameSettings)
 game.addCharacter(p1Settings)
-
-
-
 game.addEnemy(enemySetting)
 game.addEnemy(enemySetting2)
 game.addEnemy(enemySetting3)
 game.addEnemy(enemySetting4)
 game.addEnemy(enemySetting5)
-
 game.addCave(caveSetting)
+
+
+
 
 // if( nextLevel && amountEnemy <= 10 ){
 //   game.addCharacter(enemySetting)
 // }
 
-game.startGame()
+// const $startDiv = $('<div id="wrapper"></div>')
+// $startDiv
+//   .css()
+
+const $divWrapper = $('#div-wrapper')
+const $startBtn = $('#start-btn')
+const $gameScreen = $('#game-screen')
+const $restartBtn = $('#restart-btn')
+
+$divWrapper.removeAttr('hidden')
+$startBtn.removeAttr('hidden')
+
+const handleStartBtn = () => {
+  $divWrapper.hide()
+  $startBtn.hide()
+  $gameScreen.removeAttr('hidden')
+  game.startGame()
+}
+
+const handleRestartBtn = () => {
+  // game.removeEnemy()
+  // game.removeEnemy()
+  // game.removeEnemy()
+  // game.removeEnemy()
+  // game.removeCave(caveSetting)
+
+  // game.addEnemy(enemySetting)
+  // game.addEnemy(enemySetting2)
+  // game.addEnemy(enemySetting3)
+  // game.addEnemy(enemySetting4)
+  // game.addEnemy(enemySetting5)
+  // game.addCave(caveSetting)
+
+  game.handleRestart()
+}
+
+$startBtn.on('click', handleStartBtn)
+$restartBtn.on('click', handleRestartBtn)

@@ -57,6 +57,15 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       newY -= Ve
     }
 
+      // this.lv5Tactic = (GAME_WIDTH, GAME_HEIGHT) => {   // once enter lv5, trigger tactic every 10s
+  //   const {
+  //     velocity: Ve,
+  //     position: { Xe, Ye }
+  //   } = enemy
+  // // change tactic according to which key I press
+
+  // }
+
     this.updateEnemyPos(newX, newY)
   }
 
@@ -99,15 +108,12 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
 
 
   this.resetEnemyPos = (GAME_WIDTH, GAME_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT) => {
+    console.log('enemy.resetEnemyPos has been called');
     enemy.position.WIDTHe = Math.round(Math.random() * (GAME_WIDTH - ENEMY_WIDTH))
     enemy.position.HEIGHTe = Math.round(Math.random() * (GAME_HEIGHT - ENEMY_HEIGHT))
     this.updateEnemyPos(enemy.position.WIDTHe, enemy.position.HEIGHTe)
 
   }
-
-
-
-
   const sizeChange = (size) => {
     enemy.dimension.WIDTHe = size
     enemy.dimension.HEIGHTe = size
@@ -115,11 +121,9 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       .css('width', enemy.dimension.WIDTHe)
       .css('height', enemy.dimension.HEIGHTe)
   }
-
   const removeData = (levelNumElem) => {
     levelNumElem.remove(":contains('level')")
   }
-
   const addData = (levelNumber) =>{
     enemy.$levelBar = $('<p id="levelNum"></p>')
     enemy.$levelBar
@@ -131,23 +135,11 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
         .css('left', '20px')
         .appendTo('#data-bar')
   }
-
-  addData(0)  // initialization
-
+  addData(0)  // initialize the level number
   const updateData = (levelNumElem, levelNumber) => {
     removeData(levelNumElem)
     addData(levelNumber)
   }
-
-  // this.lv5Tactic = (GAME_WIDTH, GAME_HEIGHT) => {   // once enter lv5, trigger tactic every 10s
-  //   const {
-  //     velocity: Ve,
-  //     position: { Xe, Ye }
-  //   } = enemy
-  // // change tactic according to which key I press
-
-  // }
-
   this.updateEnemyPos = (newX, newY) => {
     enemy.position.Xe = newX
     enemy.position.Ye = newY
