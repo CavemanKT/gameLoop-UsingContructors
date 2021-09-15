@@ -145,7 +145,6 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
       position: { Xc, Yc },
     } = character
 
-
     if (Xe < Xc + WIDTHc && Xe + WIDTHe > Xc &&
       Ye < Yc + HEIGHTc && Ye + HEIGHTe > Yc) {
         // collision detected!
@@ -156,8 +155,8 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
         }
 
         if(blood > 1){
-          console.log(blood);
           character.blood--
+          console.log(character.blood);
           updateHp()
           console.log('lose 1 blood');
         } else {
@@ -212,16 +211,19 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
     character.dimension = {CHARACTER_WIDTH, CHARACTER_HEIGHT}
     updateLife()
     updatePoints()
-    // points = 0
-    // level = 0     // increase enemy's speed along with the level up
+
     this.resetCharacter()
     console.log('game over, restart the game');
   }
 
+
+  let charPoints = character.points
+
   this.addPoint = () => {
-    character.points += 10
+
+    charPoints += 10
     character.$pointsElem
-      .text(`points: ${character.points}`)
+      .text(`points: ${charPoints}`)
       .css('font-size', '28px')
       .css('font-weight', '10')
       .css('position', 'absolute')
@@ -250,24 +252,13 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
     } = character
     character.$lifeElem
       .text(`Life: ${life}`)
-      // .css('font-size', '28px')
-      // .css('font-weight', '10')
-      // .css('position', 'absolute')
-      // .css('bottom', '-25px')
-      // .css('left', '1000px')
-      // .appendTo('#data-bar')
+
   }
 
   const updatePoints = () => {
     character.$pointsElem
       .text(`Points: ${character.points}`)
   }
-// additional feature: event would be increase life, heal,
-// slow enemy down
-// increase or slow down character's speed
-
-
-
 
 
   this.updateCharacterPos = (newX, newY) => {

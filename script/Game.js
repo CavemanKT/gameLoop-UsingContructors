@@ -12,7 +12,9 @@ const VELOCITY = 10
 //ENEMY CONSTANT
 const ENEMY_WIDTH = CHARACTER_WIDTH - 20
 const ENEMY_HEIGHT = CHARACTER_HEIGHT - 20
-const VELOCITYe = 1
+let Ve
+
+let levelNum
 
 function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }) {
   const game = {
@@ -55,10 +57,12 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     })
   }
 
+
   const entryDetection = () => {
-    game.levelNum = game.cave.entryDetection(game.character)
-    nextLevel(game.levelNum)
-    checkIfReachTheGate(game.levelNum)
+    levelNum = game.levelNum // 0
+    levelNum = game.cave.entryDetection(game.character)
+    nextLevel(levelNum)
+    checkIfReachTheGate(levelNum)
   }
 
   const checkIfReachTheGate = (levelNum) => {
@@ -83,6 +87,14 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     game.enemies.forEach((enemy) => {
       enemy.triggerCharacterAttributeInNextLevel(game.character, levelNum)
     })
+
+  }
+
+  const handleTriggerEvent = () => {
+    game.enemies.forEach(enemy => {
+      enemy.slowDownSpeed()
+
+    });
   }
 
 // Beginning of the restartBtn      ===================================================
@@ -102,7 +114,6 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     enemies.forEach((enemy) => {
       enemy.resetEnemyPos()
     })
-    cave.setLv0()
 
     // game.loop = setInterval(updateMovements, loopInterval)
     // game.loopCollisionToEnemy = setInterval(collisionSystem, 300)
@@ -167,6 +178,8 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     game.loopCollisionToEnemy = setInterval(collisionSystem, 300)
     game.loopEntryDetection = setInterval(entryDetection,500)
     game.loopCheckIfLost = setInterval(gameOver, 1000);
+
+    $('#event li').on('click', handleTriggerEvent)
   }
 }
 

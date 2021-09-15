@@ -23,6 +23,8 @@ function Cave ( { level, newId, initPos, initDimension, initBackground } ) {
 
   init()
 
+  let levelChange = cave.level
+
   this.entryDetection = (character) => {
     const {
       blood,
@@ -30,7 +32,6 @@ function Cave ( { level, newId, initPos, initDimension, initBackground } ) {
       dimension: { WIDTHc, HEIGHTc },
       position: { Xc, Yc },
     } = character
-
 
     let newXc = Xc
     let newYc = Yc
@@ -48,16 +49,10 @@ function Cave ( { level, newId, initPos, initDimension, initBackground } ) {
     let newHEIGHTcave = height
 
     if ((newXc + newWIDTHc < newXcave + newWIDTHcave) && (newXc > newXcave) && (newYcave + 3 > newYc)) {
-      cave.level++
-      return cave.level
+      levelChange++
+      return levelChange
     }
   }
-
-  this.setLv0 = () => {
-    console.log('cave.setLv0 has been called');
-    cave.level = 0
-  }
-
 
 // beginning of the getters
   Object.defineProperties(this, {

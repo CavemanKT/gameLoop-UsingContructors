@@ -8,17 +8,37 @@ body {
   height: 900px;
   display: flex;
   position: relative;
-  justify-content: flex-end;
+  justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.2);
 }
+
+#event {
+  list-style: none;
+  height: 150px;
+  padding: 0 2%;
+  display: flex;
+  position: relative;
+
+}
+
+li {
+  cursor: pointer;
+  background: blanchedalmond;
+  padding: 7px;
+  height: 45px;
+  display: flex;
+  border-radius: 5px;
+  align-items: center;
+}
+
 
 #div-wrapper {
   background-color: #345B63;
   width: 1024px;
   height: 864px;
   display: flex;
-  position: absolute;
-
+  position: relative;
+  right: 0;
 }
 
 #start-btn {
