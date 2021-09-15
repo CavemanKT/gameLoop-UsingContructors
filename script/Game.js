@@ -14,7 +14,7 @@ const ENEMY_WIDTH = CHARACTER_WIDTH - 20
 const ENEMY_HEIGHT = CHARACTER_HEIGHT - 20
 let Ve
 
-let levelNum
+let level = 0
 
 function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }) {
   const game = {
@@ -59,10 +59,9 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
 
 
   const entryDetection = () => {
-    levelNum = game.levelNum // 0
-    levelNum = game.cave.entryDetection(game.character)
-    nextLevel(levelNum)
-    checkIfReachTheGate(levelNum)
+    level = game.cave.entryDetection(game.character)
+    nextLevel(level)
+    checkIfReachTheGate(level)
   }
 
   const checkIfReachTheGate = (levelNum) => {
@@ -85,16 +84,17 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
 
   const nextLevel = (levelNum) => {
     game.enemies.forEach((enemy) => {
-      enemy.triggerCharacterAttributeInNextLevel(game.character, levelNum)
+      enemy.triggerEnemyAttributeInNextLevel(game.character, levelNum)
     })
-
   }
+
+
 
   const handleTriggerEvent = () => {
     game.enemies.forEach(enemy => {
       enemy.slowDownSpeed()
-
     });
+    game.character.spendingPoints()
   }
 
 // Beginning of the restartBtn      ===================================================
@@ -107,6 +107,7 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
 
   }
 
+  // not used until I want a restart
   this.resetGame = ( character, enemies, cave ) => {
     console.log('this fucker has never been called');
     character.restartGame()
@@ -114,10 +115,6 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     enemies.forEach((enemy) => {
       enemy.resetEnemyPos()
     })
-
-    // game.loop = setInterval(updateMovements, loopInterval)
-    // game.loopCollisionToEnemy = setInterval(collisionSystem, 300)
-    // game.loopEntryDetection = setInterval(entryDetection,500)
   }
 
   this.handleRestart = () => {
@@ -128,7 +125,7 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     // this.resetGame(game.character, game.enemies, game.cave)
     this.startGame()
   }
-
+// =========================================
   const gameOver = () => {
     const {
       life

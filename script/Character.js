@@ -126,7 +126,6 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
     }
     if (right) {
       newX = Xc + WIDTHc + velocity > gameW ? gameW - WIDTHc : newX + velocity
-      // console.log(`${newX} = ${Xc} + ${character.WIDTHc} + ${velocity} > ${gameW} ? ${gameW} - ${WIDTHc} : ${newX} + ${velocity}`);
     }
     if (down) {
       newY = Yc + HEIGHTc + velocity > gameH ? gameH - HEIGHTc : newY + velocity
@@ -164,7 +163,7 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
           this.resetCharacter()   // basically mean I die
           character.life--
           updateLife()
-          console.log('lose 1 life');
+          console.log(`lose ${character.life} life`);
         }
     }
     if (true) {
@@ -197,6 +196,9 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
     character.position = {Xc: GAME_WIDTH / 2, Yc: GAME_HEIGHT - 100}
   }
 
+
+// Since we use location.reload() to restart the game.
+// we don't use restartGame fn
   this.restartGame = () => {
   console.log('character.restartGame has been called ');
     const {
@@ -204,10 +206,13 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
       dimension: { WIDTHc, HEIGHTc },
       position: { Xc, Yc },
     } = character
-    character.velocity = VELOCITY
-    console.log('char.velocity', character.velocity);
+    character.velocity = 2.5
+
     character.points = 0
+    // console.log(character.points);
+
     character.life = initLife
+    // console.log(character.life);
     character.dimension = {CHARACTER_WIDTH, CHARACTER_HEIGHT}
     updateLife()
     updatePoints()
@@ -218,9 +223,9 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
 
 
   let charPoints = character.points
+  console.log(charPoints);
 
   this.addPoint = () => {
-
     charPoints += 10
     character.$pointsElem
       .text(`points: ${charPoints}`)
@@ -230,6 +235,12 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
       .css('bottom', '-25px')
       .css('left', '400px')
       .appendTo('#data-bar')
+  }
+
+  this.spendingPoints = () => {
+    if (charPoints >= 20) {
+      charPoints -= 20
+    }
   }
 
   const updateHp = () => {
@@ -286,6 +297,13 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
     life: {
       get: function () {
         return character.life
+      }
+    },
+    points: {
+      get: function () {
+        return {
+          ...character.points
+        }
       }
     }
 

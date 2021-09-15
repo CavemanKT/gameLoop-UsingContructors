@@ -31,10 +31,11 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
 
   init()
 
-
   // trigger event
   this.slowDownSpeed = () => {
-
+    if(enemy.velocity > 0.01) {
+      enemy.velocity -= 0.1
+    }
   }
 
   // Everytime this gets invoked, update character position
@@ -80,14 +81,17 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
     this.updateEnemyPos(newX, newY)
   }
 
-  this.endGame = (loop1, loop2, loop3, loop4) => {
-    clearInterval(loop1)
-    clearInterval(loop2)
-    clearInterval(loop3)
-    clearInterval(loop4)
+  let curLv = 0
+
+  const changesInAttributesByLevel = ( sizechange, levelBar, levelNum, Ve, imgUrl ) => {
+    sizeChange(sizechange)
+    updateData(levelBar, levelNum)
+    enemy.velocity = Ve
+    imgChange(imgUrl)
+    curLv = levelNum    // how to win by entering the final gate at lv 10
   }
 
-  this.triggerCharacterAttributeInNextLevel = (character, levelNum) => {
+  this.triggerEnemyAttributeInNextLevel = (character, levelNum) => {
     const {
       velocity,
       dimension: {
@@ -99,82 +103,47 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
         Yc
       }
     } = character
-    // let Ve = enemy.velocity
 
-    switch (levelNum) {
+
+    switch (10) {
       case 1:
-        sizeChange(60)
-        updateData(enemy.$levelBar, levelNum)
-        enemy.velocity = 1
-        imgChange('img/Townsfolk_M_Walk_4.png')
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/Townsfolk_M_Walk_4.png' )
         break;
       case 2:
-        sizeChange(60)
-        enemy.velocity = 1.5
-        updateData(enemy.$levelBar, levelNum)
-        imgChange('img/Executioner_Walk_1.png')
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.6, 'img/Executioner_Walk_1.png' )
         break;
       case 3:
-        sizeChange(60)
-        enemy.velocity = 2
-        imgChange('img/Thief_Walk_3.png')
-        updateData(enemy.$levelBar, levelNum)
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.6, 'img/Thief_Walk_3.png' )
       case 4:
-        sizeChange(60)
-        enemy.velocity = 1
-        imgChange('img/wraith.png')
-        updateData(enemy.$levelBar, levelNum)
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/wraith.png' )
         break;
       case 5:
-        sizeChange(60)
-        enemy.velocity = 1
-        imgChange('img/GhostChloeSprite012.png')
-        updateData(enemy.$levelBar, levelNum)
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/GhostChloeSprite012.png' )
         break;
-
       case 6:
-        sizeChange(60)
-        enemy.velocity = 2
-        imgChange('img/HeavyKnight_Idle_1.png')
-        updateData(enemy.$levelBar, levelNum)
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/HeavyKnight_Idle_1.png' )
         break;
-
       case 7:
-        sizeChange(60)
-        enemy.velocity = 2
-        imgChange('img/King_Idle_3.png')
-        updateData(enemy.$levelBar, levelNum)
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/King_Idle_3.png' )
         break;
-
       case 8:
-        sizeChange(60)
-        enemy.velocity = 2
-        imgChange('img/LargeEliteKnight_Idle_1.png')
-        updateData(enemy.$levelBar, levelNum)
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/LargeEliteKnight_Idle_1.png' )
         break;
-
       case 9:
-        sizeChange(60)
-        enemy.velocity = 2
-        imgChange('img/wraith.png')
-        updateData(enemy.$levelBar, levelNum)
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/MountainKing_Idle + Walk_1.png')
         break;
-
-      case 10:
-        sizeChange(60)
-        enemy.velocity = 2
-        imgChange('img/wraith.png')
-        updateData(enemy.$levelBar, levelNum)
+        case 10:
+        changesInAttributesByLevel(90, enemy.$levelBar, 10,  0.5, 'img/wraith.png' )
         break;
       default:
-        this.endGame()
-        $('#game-screen').hide()
-        $('#div-wrapper').show()
-        $('h3').show().html('Congratulation, you escape hell.')
-        $('#restart-btn').show()
+        if ( levelNum > curLv) {
+          $('#game-screen').hide()
+          $('#div-wrapper').show()
+          $('h3').text('Congratulation!! you won !!').show()
+          $('#restart-btn').show()
+        }
         break;
     }
-
 
   }
 

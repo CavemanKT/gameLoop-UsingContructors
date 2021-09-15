@@ -5,14 +5,16 @@ const GAME_WIDTH = 1024
 const GAME_HEIGHT = 864
 const CHARACTER_WIDTH = 50
 const CHARACTER_HEIGHT = 50
-const VELOCITY = 5
-const FPS = 60
+const VELOCITY = 1.5
+const FPS = 120
 const LOOP_INTERVAL = Math.round(1000 / FPS)
 
 //ENEMY CONSTANT
 const ENEMY_WIDTH = CHARACTER_WIDTH - 20
 const ENEMY_HEIGHT = CHARACTER_HEIGHT - 20
-const VELOCITYe = 0.5
+const VELOCITYe = 0.4
+
+const initLevel = 0
 
 // random val
 let randX = function randomPositionForXe() {
@@ -25,7 +27,6 @@ let randId = function randomId () {
   return `_${Math.random().toString(36).substring(2, 15)}`
 }
 
-const initLevel = 0
 
 const gameSettings = ({
   divWrapper: '#div-wrapper',
