@@ -57,6 +57,7 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
 
   const entryDetection = () => {
     game.levelNum = game.cave.entryDetection(game.character)
+
     nextLevel(game.levelNum)
     checkIfReachTheGate(game.levelNum)
   }
@@ -80,15 +81,16 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
   }
 
   const nextLevel = (levelNum) => {
+
     game.enemies.forEach((enemy) => {
-      enemy.triggerCharacterAttributeInNextLevel(game.character, levelNum)
+      enemy.triggerEnemyAttributeInNextLevel(game.character, levelNum)
     })
   }
 
 // Beginning of the restartBtn      ===================================================
 
   const gameOverShowUp = () => {
-    game.$restartMsg.show()
+    // game.$restartMsg.show()
     game.$elem.hide()
     game.$restartBtn.show()
     game.$divWrapper.show()
@@ -98,12 +100,11 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
   this.resetGame = ( character, enemies, cave ) => {
     console.log('this fucker has never been called');
     character.restartGame()
-
+    game.levelNum = cave.setLv0(game.levelNum)
     enemies.forEach((enemy) => {
       enemy.resetEnemyPos()
+      enemy.updateLv0(game.levelNum)
     })
-    cave.setLv0()
-
     // game.loop = setInterval(updateMovements, loopInterval)
     // game.loopCollisionToEnemy = setInterval(collisionSystem, 300)
     // game.loopEntryDetection = setInterval(entryDetection,500)
@@ -114,7 +115,7 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     game.$divWrapper.hide()
     game.$restartMsg.hide()
     game.$restartBtn.hide()
-    // this.resetGame(game.character, game.enemies, game.cave)
+    this.resetGame(game.character, game.enemies, game.cave)
     this.startGame()
   }
 
@@ -137,27 +138,15 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
 // the END of the restartBtn  =======================================================
 
   this.addCharacter = (setting) => {
-    let newChar = new Character(setting, game.$elem)
-    game.character = newChar
+    game.character = new Character(setting, game.$elem)
   }
-  // this.removeCharacter = (setting) => {
-  //   game.character = null
-  // }
-
   this.addEnemy = (setting) => {
     let newEnemy = new Enemy(setting)
     game.enemies.push(newEnemy)
   }
-  // this.removeEnemy = () => {
-  //   game.enemies.pop()
-  // }
-
   this.addCave = (setting) => {
     game.cave = new Cave(setting)
   }
-  // this.removeCave = (setting) => {
-  //   game.cave = null
-  // }
 
   this.startGame = () => {
     $(document).on('keydown', handleKeyDown)

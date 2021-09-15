@@ -137,18 +137,6 @@ const enemySetting5 = {
   initBackground: 'green'
 }
 
-const game = new Game(gameSettings)
-game.addCharacter(p1Settings)
-game.addEnemy(enemySetting)
-game.addEnemy(enemySetting2)
-game.addEnemy(enemySetting3)
-game.addEnemy(enemySetting4)
-game.addEnemy(enemySetting5)
-game.addCave(caveSetting)
-
-
-
-
 // if( nextLevel && amountEnemy <= 10 ){
 //   game.addCharacter(enemySetting)
 // }
@@ -156,6 +144,17 @@ game.addCave(caveSetting)
 // const $startDiv = $('<div id="wrapper"></div>')
 // $startDiv
 //   .css()
+
+const game = new Game(gameSettings)
+
+  game.addCharacter(p1Settings)
+  game.addEnemy(enemySetting)
+  game.addEnemy(enemySetting2)
+  game.addEnemy(enemySetting3)
+  game.addEnemy(enemySetting4)
+  game.addEnemy(enemySetting5)
+  game.addCave(caveSetting)
+
 
 const $divWrapper = $('#div-wrapper')
 const $startBtn = $('#start-btn')
@@ -166,27 +165,16 @@ $divWrapper.removeAttr('hidden')
 $startBtn.removeAttr('hidden')
 
 const handleStartBtn = () => {
+
   $divWrapper.hide()
   $startBtn.hide()
   $gameScreen.removeAttr('hidden')
   game.startGame()
 }
 
-const handleRestartBtn = () => {
-  // game.removeEnemy()
-  // game.removeEnemy()
-  // game.removeEnemy()
-  // game.removeEnemy()
-  // game.removeCave(caveSetting)
-
-  // game.addEnemy(enemySetting)
-  // game.addEnemy(enemySetting2)
-  // game.addEnemy(enemySetting3)
-  // game.addEnemy(enemySetting4)
-  // game.addEnemy(enemySetting5)
-  // game.addCave(caveSetting)
-
-  game.handleRestart()
+const handleRestartBtn = (e) => {
+  location.reload()
+  // game.handleRestart()
 }
 
 $startBtn.on('click', handleStartBtn)

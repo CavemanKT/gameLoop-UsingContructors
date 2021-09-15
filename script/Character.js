@@ -144,8 +144,7 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
       dimension: { WIDTHc, HEIGHTc },
       position: { Xc, Yc },
     } = character
-    // loop the function,  tick vvvvvvvvvvvv
-    console.log(`Xe= ${Xe}, Xc=${Xc}, WIDTHc=${WIDTHc}, WIDTHe = ${WIDTHe}, Ye=${Ye}, Yc=${Yc}, HEIGHTc=${HEIGHTc}, HEIGHTe=${HEIGHTe}`);
+    // console.log(`Xe= ${Xe}, Xc=${Xc}, WIDTHc=${WIDTHc}, WIDTHe = ${WIDTHe}, Ye=${Ye}, Yc=${Yc}, HEIGHTc=${HEIGHTc}, HEIGHTe=${HEIGHTe}`);
     if (Xe < Xc + WIDTHc && Xe + WIDTHe > Xc &&
       Ye < Yc + HEIGHTc && Ye + HEIGHTe > Yc) {
         // collision detected!

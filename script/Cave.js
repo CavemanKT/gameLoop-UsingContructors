@@ -31,7 +31,6 @@ function Cave ( { level, newId, initPos, initDimension, initBackground } ) {
       position: { Xc, Yc },
     } = character
 
-
     let newXc = Xc
     let newYc = Yc
     let newWIDTHc = WIDTHc
@@ -39,23 +38,27 @@ function Cave ( { level, newId, initPos, initDimension, initBackground } ) {
 
     const {
       position : { x, y },
-      dimension: { width, height}
+      dimension: { width, height},
     } = cave
 
+    let {level} = cave
     let newXcave = x
     let newYcave = y
     let newWIDTHcave = width
     let newHEIGHTcave = height
 
+    console.log(level);
     if ((newXc + newWIDTHc < newXcave + newWIDTHcave) && (newXc > newXcave) && (newYcave + 3 > newYc)) {
-      cave.level++
-      return cave.level
+      level++
+
+      return level
     }
   }
 
-  this.setLv0 = () => {
+  this.setLv0 = (levelNum) => {
     console.log('cave.setLv0 has been called');
-    cave.level = 0
+    levelNum = 0
+    return levelNum
   }
 
 

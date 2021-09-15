@@ -14,6 +14,8 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
     $dataBar: null
   }
 
+  console.log(enemy.position);
+
   // Create character and appends the character to game-screen
   const init = () => {
     const { id, position: { Xe, Ye }, dimension: { WIDTHe, HEIGHTe }, background } = enemy
@@ -70,7 +72,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
   }
 
 
-  this.triggerCharacterAttributeInNextLevel = (character, levelNum) => {
+  this.triggerEnemyAttributeInNextLevel = (character, levelNum) => {
     const {
       velocity,
       dimension: {
@@ -85,27 +87,36 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
 
   switch (levelNum) {
     case 1:
-      sizeChange(100)
+      sizeChange(40)
+      speedChange(1)
       updateData(enemy.$levelBar, levelNum)
-
       break;
     case 2:
-      sizeChange(50)
-      enemy.velocity = 2
+      sizeChange(40)
+      speedChange(1.5)
       updateData(enemy.$levelBar, levelNum)
       break;
     case 3:
-      sizeChange(150)
-      enemy.velocity = 3
+      sizeChange(50)
+      speedChange(2)
       updateData(enemy.$levelBar, levelNum)
-
+      break;
+    case 4:
+      imgChange('img/Executioner_Idle_4.png')
       break;
     default:
+      // console.log(levelNum);
       break;
     }
 
   }
 
+
+  this.updateLv0 = (levelNum) => {
+    console.log('enemy.updateLv0 has been called');
+    levelNum = 0
+    updateData(enemy.$levelBar, levelNum)
+  }
 
   this.resetEnemyPos = (GAME_WIDTH, GAME_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT) => {
     console.log('enemy.resetEnemyPos has been called');
@@ -121,6 +132,16 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       .css('width', enemy.dimension.WIDTHe)
       .css('height', enemy.dimension.HEIGHTe)
   }
+  const speedChange = (speed) => {
+    enemy.velocity = speed
+  }
+  const imgChange = (url) => {
+    enemy.$elem
+        .removeClass('background')
+        .css('background-image', url)
+  }
+
+// update levelNumber
   const removeData = (levelNumElem) => {
     levelNumElem.remove(":contains('level')")
   }
@@ -140,13 +161,16 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
     removeData(levelNumElem)
     addData(levelNumber)
   }
+
+// update Pos
   this.updateEnemyPos = (newX, newY) => {
     enemy.position.Xe = newX
     enemy.position.Ye = newY
     enemy.$elem.css('left', newX).css('top', newY)
   }
 
-// beginning of the getters
+
+// beginning of the getters          ===========================================
   Object.defineProperties(this, {
     dimension: {
       get: function() {
@@ -163,7 +187,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       }
     }
 
-// ends of the getters
+// ends of the getters     =======================================================
   })
 }
 
