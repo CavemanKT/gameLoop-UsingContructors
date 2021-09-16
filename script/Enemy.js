@@ -211,9 +211,8 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
         }
       }
     }
-
-// ends of the getters
   })
+  // ends of the getters
 }
 
 export default Enemy

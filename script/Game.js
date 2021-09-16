@@ -18,6 +18,7 @@ let level = 0
 
 function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }) {
   const game = {
+    loopInterval: loopInterval,
     $divWrapper: $(divWrapper),  // <div id="div-wrapper"></div>
     $restartBtn: $(restartBtn),   // <h3 id="#restartMsg">You are being brought back to hell.</h3>
     $restartMsg: $(restartMsg),    // <button id="restartBtn">RESTART</button>
@@ -27,6 +28,7 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     loop: null,
     loopCollisionToEnemy: null,
     loopCheckIfLost: null,
+    loopParry: null,
     character: null,
     cave: null,
     enemies: [],
@@ -51,9 +53,15 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     })
   }
 
+  const parry = () => {
+    game.enemies.forEach((enemy) => {
+      game.character.parryTheNextAttack(enemy, game.loopInterval)
+    })
+  }
+
   const collisionSystem = () => {
     game.enemies.forEach((enemy) => {
-      game.character.collisionToEnemy(enemy) // it returns value of life, in case you want to do something about it.
+      game.character.collisionToEnemy(enemy)
     })
   }
 
@@ -179,9 +187,20 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     game.loopCollisionToEnemy = setInterval(collisionSystem, 300)
     game.loopEntryDetection = setInterval(entryDetection,500)
     game.loopCheckIfLost = setInterval(gameOver, 1000);
-
+    game.loopParry = setInterval(parry , loopInterval);
     $('#event li').on('click', handleTriggerEvent)
   }
+
+// beginning of the getters
+  Object.defineProperties(this, {
+    loopInterval: {
+      get: function() {
+        return game.loopInterval
+      }
+    }
+  })
+// ends of the getters
+
 }
 
 export default Game

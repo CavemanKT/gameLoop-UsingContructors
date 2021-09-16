@@ -33,6 +33,7 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
       right: false,
       down: false
     },
+    needToParryAttack: false
   }
 
   let charPoints = character.points
@@ -89,6 +90,8 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
 
   init()
 
+  let needToParryAttack = character.needToParryAttack
+
   // Toggle which direction the character is moving to
   this.setCharacterMovement = (value, keyCode) => {
     const { movementKeys: { left, up, right, down } } = character
@@ -105,6 +108,54 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
       case down:
         character.movement.down = value
         break
+    }
+  }
+
+  this.parryTheNextAttack = (enemy, loopInterval) => {
+    const { position: {Xe, Ye}, dimension: { WIDTHe, HEIGHTe} } = enemy
+    const {
+      blood,
+      life,
+      velocity,
+      dimension: { WIDTHc, HEIGHTc },
+      position: { Xc, Yc },
+    } = character
+    if (Xe + 8 < Xc + WIDTHc && Xe + WIDTHe - 8 > Xc &&
+      Ye + 8 < Yc + HEIGHTc && Ye + HEIGHTe - 8 > Yc) {
+        // collision detected!
+        character.needToParryAttack = true
+      }
+    if (character.needToParryAttack) {
+      const gameW = $game.width()
+      const gameH = $game.height()
+      const {
+        velocity,
+        dimension: { WIDTHc, HEIGHTc },
+        position: { Xc, Yc },
+        movement: { left, up, right, down }
+      } = character
+
+      let newX = Xc
+      let newY = Yc
+
+      if (left) {
+        newX = Xc - velocity < 0 ? 0 : newX + velocity + 100
+        character.needToParryAttack = false
+      }
+      if (up) {
+        newY = Yc - velocity < 0 ? 0 : newY + velocity + 100
+        character.needToParryAttack = false
+      }
+      if (right) {
+        newX = Xc + WIDTHc + velocity > gameW ? gameW - WIDTHc : newX - velocity - 100
+        character.needToParryAttack = false
+      }
+      if (down) {
+        newY = Yc + HEIGHTc + velocity > gameH ? gameH - HEIGHTc : newY - velocity - 100
+        character.needToParryAttack = false
+      }
+
+      this.updateCharacterPos(newX, newY)
     }
   }
 
