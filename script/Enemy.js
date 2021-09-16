@@ -34,8 +34,12 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
 
   init()
 
+  // for strategic Moving Patter in triggerEnemyAttributeInNextLevel Fn
   let newX
   let newY
+  let randomDestinationXe
+  let randomDestinationYe
+
 
   // trigger event
   this.slowDownSpeed = () => {
@@ -89,7 +93,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
   let dy
   let distance
 
-  this.triggerEnemyAttributeInNextLevel = (character, levelNum) => {
+  this.triggerEnemyAttributeInNextLevel = (character, levelNum, randNumArray) => {
     const {
       velocity,
       dimension: {
@@ -102,7 +106,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       }
     } = character
 
-    const { id, position: { Xe, Ye }, dimension: { WIDTHe, HEIGHTe }, background } = enemy
+    const { id, velocity: Ve, position: { Xe, Ye }, dimension: { WIDTHe, HEIGHTe }, background } = enemy
 
     switch (levelNum) {
       case 1:
@@ -112,13 +116,13 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.6, 'img/Executioner_Walk_1.png' )
         break;
       case 3:
-        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.6, 'img/Thief_Walk_3.png' )
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.7, 'img/Thief_Walk_3.png' )
         break;
       case 4:
-        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/wraith.png' )
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.8, 'img/GhostChloeSprite012.png' )
         break;
       case 5:
-        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/GhostChloeSprite012.png' )
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/wraith.png' )
         break;
       case 6:
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/HeavyKnight_Idle_1.png' )
@@ -147,21 +151,33 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       $('#restart-btn').show()
     }
 
+    console.log(randNumArray);
 
 
 
+// Strategic Moving Pattern
     switch (curLv) {
-      case 4:
+      case 5:
         dx = Xe - Xc
         dy = Ye - Yc
         distance = Math.sqrt(dx ** 2 + dy ** 2);
+        if ( distance > ( GAME_WIDTH / 4 + 100 )) {
+          if ( Xe < randNum1 ) {
+            newX += Ve
+          }
+          if ( Xe > randNum1 ) {
+            newX -= Ve
+          }
+          if ( Ye < randNum2) {
+            newY += Ve
+          }
+          if ( Ye > randNum2) {
+            newY -= Ve
+          }
 
-        if ( distance > ( GAME_WIDTH / 4 )) {
-          console.log(enemy.position.Xe);
-          enemy.position.Xe = Math.round(Math.random() * (GAME_WIDTH - WIDTHe))
-          enemy.position.Ye = Math.round(Math.random() * 300)
         }
 
+        this.updateEnemyPos(newX, newY)
         break;
 
       default:
@@ -217,6 +233,11 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
   this.getCurLv = () => {
     return curLv
   }
+
+  this.getDimension = () => {
+    return enemy.dimension.WIDTHe
+  }
+
 
 // beginning of the getters
   Object.defineProperties(this, {

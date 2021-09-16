@@ -98,9 +98,24 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     }
   }
 
-  const nextLevel = (levelNum) => {
+  const getRandNum = () => {
     game.enemies.forEach((enemy) => {
-      enemy.triggerEnemyAttributeInNextLevel(game.character, levelNum)
+      var WIDTHe = enemy.getDimension()
+      let randomDestinationXe = Math.round(Math.random() * (GAME_WIDTH - WIDTHe))
+      let randomDestinationYe = Math.round(Math.random() * 300)
+      let randNumArray = [randomDestinationXe, randomDestinationYe]
+      return randNumArray
+    })
+  }
+
+  const randNumCollection = () => {
+    let randNumArrayForStage4MovingPattern = getRandNum()
+    nextLevel(0, randNumArrayForStage4MovingPattern)
+  }
+
+  const nextLevel = (levelNum, randNumArray) => {
+    game.enemies.forEach((enemy) => {
+      enemy.triggerEnemyAttributeInNextLevel(game.character, levelNum, randNumArray)
     })
   }
 
@@ -166,17 +181,13 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
 
     game.loop = setInterval(updateMovements, loopInterval)
     game.loopCollisionToEnemy = setInterval(collisionSystem, 300)
-    game.loopEntryDetection = setInterval(entryDetection,500)
+    game.loopEntryDetection = setInterval(entryDetection,loopInterval) // originally :500
     game.loopCheckIfLost = setInterval(gameOver, 1000);
     game.loopEvasionSkill = setInterval(evasion , loopInterval);
+    game.loopRandNum = setInterval( randNumCollection, 8000);
+
     $('ul li:first-child').on('click', slowDownEnemyEventHandler)
   }
-
-// Stop the loop when I win
-  // const getCurLvFromEnemy = () => {
-
-  // }
-
 
 }
 
