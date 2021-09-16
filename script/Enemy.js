@@ -95,7 +95,6 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
     distance = Math.sqrt(dx ** 2 + dy ** 2);
 
     if ( distance > ( GAME_WIDTH / 4 )) {
-      console.log(enemy.position.Xe);
       enemy.position.Xe = Math.round(Math.random() * (GAME_WIDTH - WIDTHe))
       enemy.position.Ye = Math.round(Math.random() * 300)
     }
@@ -142,7 +141,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
         changesInAttributesByLevel(80, enemy.$levelBar, levelNum,  0.7, 'img/LargeEliteKnight_Idle_1.png' )
         break;
       case 9:
-        changesInAttributesByLevel(80, enemy.$levelBar, levelNum,  0.7, 'img/MountainKing_Idle.png')
+        changesInAttributesByLevel(80, enemy.$levelBar, levelNum,  0.7, 'img/mountainKing.png')
         break;
       case 10:
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.9, 'img/wraith.png' )
@@ -191,7 +190,6 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
   }
 
   this.resetEnemyPos = (GAME_WIDTH, GAME_HEIGHT, ENEMY_WIDTH, ENEMY_HEIGHT) => {
-    // console.log('enemy.resetEnemyPos has been called');
     enemy.position.WIDTHe = Math.round(Math.random() * (GAME_WIDTH - ENEMY_WIDTH))
     enemy.position.HEIGHTe = Math.round(Math.random() * (GAME_HEIGHT - ENEMY_HEIGHT))
     this.updateEnemyPos(enemy.position.WIDTHe, enemy.position.HEIGHTe)

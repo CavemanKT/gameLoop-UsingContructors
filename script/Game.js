@@ -106,7 +106,6 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
 
   const slowDownEnemyEventHandler = () => {
     let charPoints = game.character.getCharPoints()
-    console.log(charPoints);
     if ( charPoints >= 1) {
       game.enemies.forEach(enemy => {
         enemy.slowDownSpeed()
@@ -130,10 +129,8 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     const {
       life
     } = game.character
-    console.log('is this gameOver', life);
     if (life <= -1) {
       game.character.restartGame()
-      console.log('life', life);
       gameOverShowUp()
       clearInterval(game.loopCollisionToEnemy)
       clearInterval(game.loopEntryDetection)

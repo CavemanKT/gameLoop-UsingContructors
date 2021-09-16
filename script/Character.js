@@ -213,15 +213,12 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
 
         if(blood > 1){
           character.blood--
-          console.log(character.blood);
           updateHp()
-          console.log('lose 1 blood');
         } else {
           character.blood--
-          this.resetCharacter()   // basically mean I die
+          this.resetCharacter()
           character.life--
           updateLife()
-          console.log(`lose ${character.life} life`);
         }
     }
     if (true) {
@@ -258,7 +255,6 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
 // Since we use location.reload() to restart the game.
 // we don't use restartGame fn
   this.restartGame = () => {
-  console.log('character.restartGame has been called ');
     const {
       life,
       dimension: { WIDTHc, HEIGHTc },
@@ -267,16 +263,12 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
     character.velocity = 2.5
 
     character.points = 0
-    // console.log(character.points);
 
     character.life = initLife
-    // console.log(character.life);
     character.dimension = {CHARACTER_WIDTH, CHARACTER_HEIGHT}
     updateLife()
     updatePoints()
-
     this.resetCharacter()
-    console.log('game over, restart the game');
   }
 
 
