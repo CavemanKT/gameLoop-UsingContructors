@@ -18,7 +18,6 @@ let level = 0
 
 function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }) {
   const game = {
-    loopInterval: loopInterval,
     $divWrapper: $(divWrapper),  // <div id="div-wrapper"></div>
     $restartBtn: $(restartBtn),   // <h3 id="#restartMsg">You are being brought back to hell.</h3>
     $restartMsg: $(restartMsg),    // <button id="restartBtn">RESTART</button>
@@ -28,7 +27,7 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     loop: null,
     loopCollisionToEnemy: null,
     loopCheckIfLost: null,
-    loopParry: null,
+    loopEvasionSkill: null,
     character: null,
     cave: null,
     enemies: [],
@@ -53,9 +52,9 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     })
   }
 
-  const parry = () => {
+  const evasion = () => {
     game.enemies.forEach((enemy) => {
-      game.character.parryTheNextAttack(enemy, game.loopInterval)
+      game.character.evadeTheNextAttack(enemy)
     })
   }
 
@@ -96,15 +95,28 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     })
   }
 
-
-
-  const handleTriggerEvent = () => {
+  const evasionSkillEventHandler = () => {
     let charPoints = game.character.getCharPoints()
-    if ( charPoints >= 5) {
+    console.log(charPoints);
+    if ( charPoints >= 1) {
+      game.loopEvasionSkill = setInterval(evasion , loopInterval);
+
+      game.character.spendingPoints()
+    }
+    setTimeout(() => {
+      clearInterval(game.loopEvasionSkill)
+    }, 10);
+  }
+
+
+  const slowDownEnemyEventHandler = () => {
+    let charPoints = game.character.getCharPoints()
+    console.log(charPoints);
+    if ( charPoints >= 1) {
       game.enemies.forEach(enemy => {
         enemy.slowDownSpeed()
       });
-      console.log(charPoints);
+
       game.character.spendingPoints()
     }
   }
@@ -116,28 +128,8 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     game.$elem.hide()
     game.$restartBtn.show()
     game.$divWrapper.show()
-
   }
 
-  // not used until I want a restart
-  this.resetGame = ( character, enemies, cave ) => {
-    console.log('this fucker has never been called');
-    character.restartGame()
-
-    enemies.forEach((enemy) => {
-      enemy.resetEnemyPos()
-    })
-  }
-
-  this.handleRestart = () => {
-    game.$elem.show()
-    game.$divWrapper.hide()
-    game.$restartMsg.hide()
-    game.$restartBtn.hide()
-    // this.resetGame(game.character, game.enemies, game.cave)
-    this.startGame()
-  }
-// =========================================
   const gameOver = () => {
     const {
       life
@@ -156,28 +148,21 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
 
 // the END of the restartBtn  =======================================================
 
+// Beginning of the addSetting
   this.addCharacter = (setting) => {
     let newChar = new Character(setting, game.$elem)
     game.character = newChar
   }
-  // this.removeCharacter = (setting) => {
-  //   game.character = null
-  // }
 
   this.addEnemy = (setting) => {
     let newEnemy = new Enemy(setting)
     game.enemies.push(newEnemy)
   }
-  // this.removeEnemy = () => {
-  //   game.enemies.pop()
-  // }
 
   this.addCave = (setting) => {
     game.cave = new Cave(setting)
   }
-  // this.removeCave = (setting) => {
-  //   game.cave = null
-  // }
+// End of the addSetting
 
   this.startGame = () => {
     $(document).on('keydown', handleKeyDown)
@@ -187,19 +172,12 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     game.loopCollisionToEnemy = setInterval(collisionSystem, 300)
     game.loopEntryDetection = setInterval(entryDetection,500)
     game.loopCheckIfLost = setInterval(gameOver, 1000);
-    game.loopParry = setInterval(parry , loopInterval);
-    $('#event li').on('click', handleTriggerEvent)
-  }
+    // game.loopEvasionSkill = setInterval(evasion , loopInterval);
 
-// beginning of the getters
-  Object.defineProperties(this, {
-    loopInterval: {
-      get: function() {
-        return game.loopInterval
-      }
-    }
-  })
-// ends of the getters
+
+    $('ul li:first-child').on('click', slowDownEnemyEventHandler)
+    // $('ul li:nth-child(2)').on('click', evasionSkillEventHandler)
+  }
 
 }
 

@@ -16,7 +16,7 @@ body {
   list-style: none;
   height: 150px;
   padding: 0 2%;
-  display: flex;
+  /* display: flex; */
   position: relative;
 
 }
@@ -26,7 +26,7 @@ li {
   background: blanchedalmond;
   padding: 7px;
   height: 45px;
-  display: flex;
+  margin-bottom: 10px;
   border-radius: 5px;
   align-items: center;
 }

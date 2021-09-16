@@ -111,7 +111,7 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
     }
   }
 
-  this.parryTheNextAttack = (enemy, loopInterval) => {
+  this.evadeTheNextAttack = (enemy) => {
     const { position: {Xe, Ye}, dimension: { WIDTHe, HEIGHTe} } = enemy
     const {
       blood,
@@ -126,6 +126,7 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
         character.needToParryAttack = true
       }
     if (character.needToParryAttack) {
+      console.log(character.needToParryAttack);
       const gameW = $game.width()
       const gameH = $game.height()
       const {
@@ -138,6 +139,7 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
       let newX = Xc
       let newY = Yc
 
+      console.log('newX:',newX, '');
       if (left) {
         newX = Xc - velocity < 0 ? 0 : newX + velocity + 100
         character.needToParryAttack = false
@@ -154,6 +156,7 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
         newY = Yc + HEIGHTc + velocity > gameH ? gameH - HEIGHTc : newY - velocity - 100
         character.needToParryAttack = false
       }
+
 
       this.updateCharacterPos(newX, newY)
     }
