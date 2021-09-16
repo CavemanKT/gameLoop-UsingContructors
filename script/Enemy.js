@@ -33,8 +33,8 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
 
   // trigger event
   this.slowDownSpeed = () => {
-    if(enemy.velocity > 0.01) {
-      enemy.velocity -= 0.1
+    if(enemy.velocity > 0.1) {
+      enemy.velocity -= 0.09
     }
   }
 

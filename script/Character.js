@@ -10,6 +10,8 @@ const CHARACTER_POSITION = {
   y: GAME_HEIGHT - 100
 }
 
+
+
 function Character({points, blood, life, initDimension, initVelocity, initPos, initBackground, movementKeys }, $game) {
   const character = {
     points: points,
@@ -33,6 +35,8 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
     },
   }
 
+  let charPoints = character.points
+
   // Create character and appends the character to game-screen
   const init = () => {
     const {points, blood, life, id, position: { Xc, Yc }, dimension: { WIDTHc, HEIGHTc }, background } = character
@@ -51,7 +55,7 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
     // points
     character.$pointsElem = $(`<p id="pointsElem"></p>`)
     character.$pointsElem
-      .text(`points: ${character.points}`)
+      .text(`points: ${charPoints}`)
       .css('font-size', '28px')
       .css('font-weight', '10')
       .css('position', 'absolute')
@@ -222,11 +226,9 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
   }
 
 
-  let charPoints = character.points
-  console.log(charPoints);
 
   this.addPoint = () => {
-    charPoints += 10
+    charPoints += 5
     character.$pointsElem
       .text(`points: ${charPoints}`)
       .css('font-size', '28px')
@@ -238,8 +240,9 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
   }
 
   this.spendingPoints = () => {
-    if (charPoints >= 20) {
-      charPoints -= 20
+    if (charPoints >= 1) {
+      charPoints--
+      updatePoints()
     }
   }
 
@@ -268,7 +271,7 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
 
   const updatePoints = () => {
     character.$pointsElem
-      .text(`Points: ${character.points}`)
+      .text(`Points: ${charPoints}`)
   }
 
 
@@ -276,6 +279,10 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
     character.position.Xc = newX
     character.position.Yc = newY
     character.$elem.css('left', newX).css('top', newY)
+  }
+
+  this.getCharPoints = () => {
+    return charPoints
   }
 
 // beginning of the getters

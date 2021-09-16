@@ -12,7 +12,7 @@ const LOOP_INTERVAL = Math.round(1000 / FPS)
 //ENEMY CONSTANT
 const ENEMY_WIDTH = CHARACTER_WIDTH - 20
 const ENEMY_HEIGHT = CHARACTER_HEIGHT - 20
-const VELOCITYe = 0.4
+const VELOCITYe = 0.8
 
 const initLevel = 0
 

@@ -91,10 +91,14 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
 
 
   const handleTriggerEvent = () => {
-    game.enemies.forEach(enemy => {
-      enemy.slowDownSpeed()
-    });
-    game.character.spendingPoints()
+    let charPoints = game.character.getCharPoints()
+    if ( charPoints >= 5) {
+      game.enemies.forEach(enemy => {
+        enemy.slowDownSpeed()
+      });
+      console.log(charPoints);
+      game.character.spendingPoints()
+    }
   }
 
 // Beginning of the restartBtn      ===================================================
