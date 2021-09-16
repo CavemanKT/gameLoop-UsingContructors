@@ -31,7 +31,7 @@ let randId = function randomId () {
 const gameSettings = ({
   divWrapper: '#div-wrapper',
   restartBtn: '#restart-btn',
-  restartMsg: '#restart-msg',
+  restartMsg: 'h3',
   startBtn: '#start-btn',
   id: '#game-screen',
   loopInterval: LOOP_INTERVAL

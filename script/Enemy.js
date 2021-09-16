@@ -1,3 +1,6 @@
+const GAME_WIDTH = 1024
+const GAME_HEIGHT = 864
+
 function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, } ) {
   const enemy = {
     level: 0,
@@ -31,6 +34,9 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
 
   init()
 
+  let newX
+  let newY
+
   // trigger event
   this.slowDownSpeed = () => {
     if(enemy.velocity > 0.1) {
@@ -50,8 +56,8 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       position: { Xc, Yc}
     } = character
 
-    let newX = Xe
-    let newY = Ye
+    newX = Xe
+    newY = Ye
 
     if ( Xe < Xc ) {
       newX += Ve
@@ -66,31 +72,19 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       newY -= Ve
     }
 
-
-
-
-      // this.lv5Tactic = (GAME_WIDTH, GAME_HEIGHT) => {   // once enter lv5, trigger tactic every 10s
-  //   const {
-  //     velocity: Ve,
-  //     position: { Xe, Ye }
-  //   } = enemy
-  // // change tactic according to which key I press
-
-  // }
-
     this.updateEnemyPos(newX, newY)
   }
 
   let curLv = 0
-  // let prevLv
 
   const changesInAttributesByLevel = ( sizechange, levelBar, levelNum, Ve, imgUrl ) => {
     sizeChange(sizechange)
     updateData(levelBar, levelNum)
     enemy.velocity = Ve
     imgChange(imgUrl)
-    curLv = levelNum    // how to win by entering the final gate at lv 10
+    curLv = levelNum
   }
+
 
   this.triggerEnemyAttributeInNextLevel = (character, levelNum) => {
     const {
@@ -105,7 +99,6 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       }
     } = character
 
-
     switch (levelNum) {
       case 1:
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/Townsfolk_M_Walk_4.png' )
@@ -115,6 +108,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
         break;
       case 3:
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.6, 'img/Thief_Walk_3.png' )
+        break;
       case 4:
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/wraith.png' )
         break;
@@ -133,7 +127,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       case 9:
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/MountainKing_Idle + Walk_1.png')
         break;
-        case 10:
+      case 10:
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/wraith.png' )
         break;
       default:
@@ -148,6 +142,14 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       $('#restart-btn').show()
     }
 
+    switch (curLv) {
+      case 4:
+        // if ( )
+        break;
+
+      default:
+        break;
+    }
   }
 
   const imgChange = (url) => {
@@ -171,12 +173,12 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       .css('height', enemy.dimension.HEIGHTe)
   }
   const removeData = (levelNumElem) => {
-    levelNumElem.remove(":contains('level')")
+    levelNumElem.remove(":contains('Level')")
   }
   const addData = (levelNumber) =>{
     enemy.$levelBar = $('<p id="levelNum"></p>')
     enemy.$levelBar
-        .text(`level ${levelNumber}`)
+        .text(`Level: ${levelNumber}`)
         .css('font-size', '28px')
         .css('font-weight', '10')
         .css('position', 'absolute')
@@ -193,6 +195,10 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
     enemy.position.Xe = newX
     enemy.position.Ye = newY
     enemy.$elem.css('left', newX).css('top', newY)
+  }
+
+  this.getCurLv = () => {
+    return curLv
   }
 
 // beginning of the getters

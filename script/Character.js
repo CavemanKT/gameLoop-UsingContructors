@@ -56,7 +56,7 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
     // points
     character.$pointsElem = $(`<p id="pointsElem"></p>`)
     character.$pointsElem
-      .text(`points: ${charPoints}`)
+      .text(`Points: ${charPoints}`)
       .css('font-size', '28px')
       .css('font-weight', '10')
       .css('position', 'absolute')
@@ -120,13 +120,14 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
       dimension: { WIDTHc, HEIGHTc },
       position: { Xc, Yc },
     } = character
-    if (Xe + 8 < Xc + WIDTHc && Xe + WIDTHe - 8 > Xc &&
-      Ye + 8 < Yc + HEIGHTc && Ye + HEIGHTe - 8 > Yc) {
+
+    if (Xe + 15 < Xc + WIDTHc && Xe + WIDTHe - 15 > Xc &&
+      Ye + 15 < Yc + HEIGHTc && Ye + HEIGHTe - 15 > Yc) {
         // collision detected!
         character.needToParryAttack = true
       }
+
     if (character.needToParryAttack) {
-      console.log(character.needToParryAttack);
       const gameW = $game.width()
       const gameH = $game.height()
       const {
@@ -139,7 +140,6 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
       let newX = Xc
       let newY = Yc
 
-      console.log('newX:',newX, '');
       if (left) {
         newX = Xc - velocity < 0 ? 0 : newX + velocity + 100
         character.needToParryAttack = false

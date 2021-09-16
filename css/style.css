@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Caveat&family=Indie+Flower&family=Shadows+Into+Light&display=swap');
+
 body {
   display: flex;
   justify-content: center;
@@ -23,6 +25,8 @@ body {
 
 li {
   cursor: pointer;
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 35px;
   background: blanchedalmond;
   padding: 7px;
   height: 45px;
@@ -31,7 +35,6 @@ li {
   align-items: center;
 }
 
-
 #div-wrapper {
   background-color: #345B63;
   width: 1024px;
@@ -39,35 +42,39 @@ li {
   display: flex;
   position: relative;
   right: 0;
+  justify-content: space-around;
+  align-items: center;
 }
 
 #start-btn {
-  width: 150px;
-  height: 80px;
+  width: 200px;
+  height: 100px;
   background-color: #D4ECDD;
+  align-self: center;
   position: relative;
-  justify-content: center;
-  align-items: center;
+  font-family: 'Indie Flower', cursive;
+  font-size: 50px;
+  border-radius: 20px;
 }
 
-#restart-msg {
-  text-align: center;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
+h3 {
+  font-family: 'Caveat', cursive;
+  font-size: 50px;
   font-weight: 800;
-
+  align-self: center;
+  position: relative;
+  color: bisque;
 }
 
 #restart-btn {
-  width: 150px;
-  height: 80px;
-  background-color: #E8F6EF;
+  width: 250px;
+  height: 100px;
+  background-color: #D4ECDD;
+  align-self: center;
   position: relative;
-  justify-content: center;
-  align-items: center;
-
+  font-family: 'Indie Flower', cursive;
+  font-size: 50px;
+  border-radius: 20px;
 }
 
 #game-screen {
@@ -85,3 +92,7 @@ li {
 .veil {
   background-color: rgba(255, 255, 255, 0.7);
 }
+
+/* p {
+  font-family: 'Abril Fatface', cursive;
+} */

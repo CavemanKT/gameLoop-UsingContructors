@@ -69,6 +69,15 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     level = game.cave.entryDetection(game.character)
     nextLevel(level)
     checkIfReachTheGate(level)
+    game.enemies.forEach(enemy => {
+      let curLv = enemy.getCurLv()
+      if ( level > curLv) {
+        clearInterval(game.loopCollisionToEnemy)
+        clearInterval(game.loopEntryDetection)
+        clearInterval(game.loop)
+        clearInterval(game.loopCheckIfLost)
+      }
+    });
   }
 
   const checkIfReachTheGate = (levelNum) => {
@@ -94,20 +103,6 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
       enemy.triggerEnemyAttributeInNextLevel(game.character, levelNum)
     })
   }
-
-  const evasionSkillEventHandler = () => {
-    let charPoints = game.character.getCharPoints()
-    console.log(charPoints);
-    if ( charPoints >= 1) {
-      game.loopEvasionSkill = setInterval(evasion , loopInterval);
-
-      game.character.spendingPoints()
-    }
-    setTimeout(() => {
-      clearInterval(game.loopEvasionSkill)
-    }, 10);
-  }
-
 
   const slowDownEnemyEventHandler = () => {
     let charPoints = game.character.getCharPoints()
@@ -144,6 +139,7 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
       clearInterval(game.loop)
       clearInterval(game.loopCheckIfLost)
     }
+
   }
 
 // the END of the restartBtn  =======================================================
@@ -172,12 +168,15 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     game.loopCollisionToEnemy = setInterval(collisionSystem, 300)
     game.loopEntryDetection = setInterval(entryDetection,500)
     game.loopCheckIfLost = setInterval(gameOver, 1000);
-    // game.loopEvasionSkill = setInterval(evasion , loopInterval);
-
-
+    game.loopEvasionSkill = setInterval(evasion , loopInterval);
     $('ul li:first-child').on('click', slowDownEnemyEventHandler)
-    // $('ul li:nth-child(2)').on('click', evasionSkillEventHandler)
   }
+
+// Stop the loop when I win
+  // const getCurLvFromEnemy = () => {
+
+  // }
+
 
 }
 
