@@ -82,6 +82,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
   }
 
   let curLv = 0
+  // let prevLv
 
   const changesInAttributesByLevel = ( sizechange, levelBar, levelNum, Ve, imgUrl ) => {
     sizeChange(sizechange)
@@ -105,7 +106,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
     } = character
 
 
-    switch (10) {
+    switch (levelNum) {
       case 1:
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/Townsfolk_M_Walk_4.png' )
         break;
@@ -133,16 +134,18 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/MountainKing_Idle + Walk_1.png')
         break;
         case 10:
-        changesInAttributesByLevel(90, enemy.$levelBar, 10,  0.5, 'img/wraith.png' )
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/wraith.png' )
         break;
       default:
-        if ( levelNum > curLv) {
-          $('#game-screen').hide()
-          $('#div-wrapper').show()
-          $('h3').text('Congratulation!! you won !!').show()
-          $('#restart-btn').show()
-        }
         break;
+    }
+
+    if ( levelNum > curLv ) {
+      // prevLv = levelNum
+      $('#game-screen').hide()
+      $('#div-wrapper').show()
+      $('h3').text('Congratulation!! you won !!').show()
+      $('#restart-btn').show()
     }
 
   }
