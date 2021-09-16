@@ -85,6 +85,9 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
     curLv = levelNum
   }
 
+  let dx
+  let dy
+  let distance
 
   this.triggerEnemyAttributeInNextLevel = (character, levelNum) => {
     const {
@@ -98,6 +101,8 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
         Yc
       }
     } = character
+
+    const { id, position: { Xe, Ye }, dimension: { WIDTHe, HEIGHTe }, background } = enemy
 
     switch (levelNum) {
       case 1:
@@ -142,9 +147,21 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       $('#restart-btn').show()
     }
 
+
+
+
     switch (curLv) {
       case 4:
-        // if ( )
+        dx = Xe - Xc
+        dy = Ye - Yc
+        distance = Math.sqrt(dx ** 2 + dy ** 2);
+
+        if ( distance > ( GAME_WIDTH / 4 )) {
+          console.log(enemy.position.Xe);
+          enemy.position.Xe = Math.round(Math.random() * (GAME_WIDTH - WIDTHe))
+          enemy.position.Ye = Math.round(Math.random() * 300)
+        }
+
         break;
 
       default:
