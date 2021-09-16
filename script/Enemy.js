@@ -89,6 +89,18 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
   let dy
   let distance
 
+  const stage5MovingStrategicPattern = (Xe, Xc, Ye, Yc, GAME_WIDTH, WIDTHe) => {
+    dx = Xe - Xc
+    dy = Ye - Yc
+    distance = Math.sqrt(dx ** 2 + dy ** 2);
+
+    if ( distance > ( GAME_WIDTH / 4 )) {
+      console.log(enemy.position.Xe);
+      enemy.position.Xe = Math.round(Math.random() * (GAME_WIDTH - WIDTHe))
+      enemy.position.Ye = Math.round(Math.random() * 300)
+    }
+  }
+
   this.triggerEnemyAttributeInNextLevel = (character, levelNum) => {
     const {
       velocity,
@@ -115,25 +127,25 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.6, 'img/Thief_Walk_3.png' )
         break;
       case 4:
-        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/wraith.png' )
-        break;
-      case 5:
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/GhostChloeSprite012.png' )
         break;
+      case 5:
+        changesInAttributesByLevel(70, enemy.$levelBar, levelNum,  0.7, 'img/wraith.png' )
+        break;
       case 6:
-        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/HeavyKnight_Idle_1.png' )
+        changesInAttributesByLevel(75, enemy.$levelBar, levelNum,  0.6, 'img/HeavyKnight_Idle_1.png' )
         break;
       case 7:
-        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/King_Idle_3.png' )
+        changesInAttributesByLevel(77, enemy.$levelBar, levelNum,  0.7, 'img/King_Idle_3.png' )
         break;
       case 8:
-        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/LargeEliteKnight_Idle_1.png' )
+        changesInAttributesByLevel(80, enemy.$levelBar, levelNum,  0.7, 'img/LargeEliteKnight_Idle_1.png' )
         break;
       case 9:
-        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/MountainKing_Idle + Walk_1.png')
+        changesInAttributesByLevel(80, enemy.$levelBar, levelNum,  0.7, 'img/MountainKing_Idle + Walk_1.png')
         break;
       case 10:
-        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.5, 'img/wraith.png' )
+        changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.9, 'img/wraith.png' )
         break;
       default:
         break;
@@ -151,19 +163,24 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
 
 
     switch (curLv) {
-      case 4:
-        dx = Xe - Xc
-        dy = Ye - Yc
-        distance = Math.sqrt(dx ** 2 + dy ** 2);
-
-        if ( distance > ( GAME_WIDTH / 4 )) {
-          console.log(enemy.position.Xe);
-          enemy.position.Xe = Math.round(Math.random() * (GAME_WIDTH - WIDTHe))
-          enemy.position.Ye = Math.round(Math.random() * 300)
-        }
-
+      case 5:
+        stage5MovingStrategicPattern(Xe, Xc, Ye, Yc, GAME_WIDTH, WIDTHe)
         break;
-
+      case 6:
+        stage5MovingStrategicPattern(Xe, Xc, Ye, Yc, GAME_WIDTH, WIDTHe)
+        break;
+      case 7:
+        stage5MovingStrategicPattern(Xe, Xc, Ye, Yc, GAME_WIDTH, WIDTHe)
+        break;
+      case 8:
+        stage5MovingStrategicPattern(Xe, Xc, Ye, Yc, GAME_WIDTH, WIDTHe)
+        break;
+      case 9:
+        stage5MovingStrategicPattern(Xe, Xc, Ye, Yc, GAME_WIDTH, WIDTHe)
+        break;
+      case 10:
+        stage5MovingStrategicPattern(Xe, Xc, Ye, Yc, GAME_WIDTH, WIDTHe)
+        break;
       default:
         break;
     }
