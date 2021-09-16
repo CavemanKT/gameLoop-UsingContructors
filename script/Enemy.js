@@ -142,7 +142,7 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
         changesInAttributesByLevel(80, enemy.$levelBar, levelNum,  0.7, 'img/LargeEliteKnight_Idle_1.png' )
         break;
       case 9:
-        changesInAttributesByLevel(80, enemy.$levelBar, levelNum,  0.7, 'img/MountainKing_Idle + Walk_1.png')
+        changesInAttributesByLevel(80, enemy.$levelBar, levelNum,  0.7, 'img/MountainKing_Idle.png')
         break;
       case 10:
         changesInAttributesByLevel(90, enemy.$levelBar, levelNum,  0.9, 'img/wraith.png' )
@@ -155,12 +155,10 @@ function Enemy ( { newId, initDimension, initVelocity, initPos, initBackground, 
       // prevLv = levelNum
       $('#game-screen').hide()
       $('#div-wrapper').show()
+      $('article').hide()
       $('h3').text('Congratulation!! you won !!').show()
       $('#restart-btn').show()
     }
-
-
-
 
     switch (curLv) {
       case 5:

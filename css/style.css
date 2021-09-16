@@ -46,7 +46,28 @@ li {
   align-items: center;
 }
 
+#div-wrapper article {
+  background-color: #D4ECDD;
+  align-self: center;
+  position: relative;
+  border-radius: 3px;
+  margin: auto 100px auto 30px;
+  padding: 20px;
+  border-style: none;
+  font-size: 40px;
+  font-weight: 500;
+}
+
+#div-wrapper article:first-letter {
+  float: left;
+  font-size: 90px;
+  line-height: 1;
+  font-weight: 600;
+  margin-right: 7px;
+}
+
 #start-btn {
+  margin: auto 30px auto 100px;
   width: 200px;
   height: 100px;
   background-color: #D4ECDD;
@@ -93,6 +114,6 @@ h3 {
   background-color: rgba(255, 255, 255, 0.7);
 }
 
-/* p {
+p {
   font-family: 'Abril Fatface', cursive;
-} */
+}

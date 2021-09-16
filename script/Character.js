@@ -328,7 +328,6 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
       .text(`Points: ${charPoints}`)
   }
 
-
   this.updateCharacterPos = (newX, newY) => {
     character.position.Xc = newX
     character.position.Yc = newY
@@ -367,7 +366,6 @@ function Character({points, blood, life, initDimension, initVelocity, initPos, i
         }
       }
     }
-
   })
   // ends of the getters
 }

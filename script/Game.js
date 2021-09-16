@@ -120,6 +120,7 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
 
   const gameOverShowUp = () => {
     game.$restartMsg.show()
+    $('article').hide()
     game.$elem.hide()
     game.$restartBtn.show()
     game.$divWrapper.show()
@@ -171,11 +172,6 @@ function Game({ divWrapper, restartBtn, restartMsg, startBtn, id, loopInterval }
     game.loopEvasionSkill = setInterval(evasion , loopInterval);
     $('ul li:first-child').on('click', slowDownEnemyEventHandler)
   }
-
-// Stop the loop when I win
-  // const getCurLvFromEnemy = () => {
-
-  // }
 
 
 }
